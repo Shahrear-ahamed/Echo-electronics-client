@@ -4,7 +4,6 @@ import "./Footer.css";
 
 const Footer = () => {
   const date = new Date().getFullYear();
-  console.log(date);
   return (
     <footer className="footer bg-gray-200 flex justify-center items-center flex-col">
       <img

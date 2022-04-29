@@ -1,21 +1,13 @@
 import React from "react";
-import Social from "../Social/Social";
-import "./Register.css";
 import { Link } from "react-router-dom";
+import Social from "../Social/Social";
 
-const Register = () => {
+const Login = () => {
   return (
     <section className="flex flex-col items-center my-10">
       <div className="grid content-between rounded-md py-5 px-12 mx-auto register shadow-hard">
-        <h2 className="text-3xl text-gray-600 font-bold text-center">Register</h2>
+        <h2 className="text-3xl text-gray-600 font-bold text-center">Login</h2>
         <form className="">
-          <input
-            className="w-full border-b-2 border-black my-3 py-1 outline-none"
-            type="text"
-            placeholder="Name"
-            name="name"
-          />
-          <br />
           <input
             className="w-full border-b-2 border-black my-3 py-1 outline-none"
             type="email"
@@ -29,21 +21,17 @@ const Register = () => {
             name="password"
             placeholder="Password"
           />
-          <br />
-          <input
-            className="w-full border-b-2 border-black my-2 py-1 outline-none"
-            type="password"
-            name="confirm_Password"
-            placeholder="Confirm Password"
-          />
           <input
             className="theme-color text-white w-full py-3 rounded-md mt-5 cursor-pointer"
             type="submit"
-            value="Register"
+            value="Login"
           />
         </form>
         <p className="py-3">
-          Already have an account? <Link className="link" to="/login">Login</Link>
+          New to Echo Electronics?{" "}
+          <Link className="link" to="/register">
+            Register
+          </Link>
         </p>
       </div>
       <Social />
@@ -51,4 +39,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

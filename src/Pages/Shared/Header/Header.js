@@ -1,9 +1,10 @@
 import React from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoLight from "../../../images/logo/logo-light.png";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header>
       <div className="container mx-auto px-7 flex justify-between items-center">
@@ -20,10 +21,16 @@ const Header = () => {
             <Link to="/">Home</Link>
           </nav>
           <div className="button-grp">
-            <button className=" px-5 py-2 ml-6 border-2 rounded-lg border-color">
+            <button
+              onClick={() => navigate("/register")}
+              className=" px-5 py-2 ml-6 border-2 rounded-lg border-color"
+            >
               Register
             </button>
-            <button className="px-5 py-2 ml-6 rounded-lg border-2 text-white button-color border-color">
+            <button
+              onClick={() => navigate("/login")}
+              className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
+            >
               Login
             </button>
           </div>
