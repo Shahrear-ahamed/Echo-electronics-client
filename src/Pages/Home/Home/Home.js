@@ -1,11 +1,13 @@
 import React from "react";
 import HeroSection from "../HeroSection/HeroSection";
+import OurQuality from "../OurQuality/OurQuality";
 
 const Home = () => {
   return (
-    <div>
+    <section>
       <HeroSection />
-    </div>
+      <OurQuality />
+    </section>
   );
 };
 

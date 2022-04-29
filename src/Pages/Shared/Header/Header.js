@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Header.css";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import hamburgerMenu from "../../../images/bars-solid.svg";
 import logoDark from "../../../images/logo/logo-dark.png";
 
@@ -8,7 +8,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [hamburger, setHamburget] = useState(false);
-  console.log(hamburger);
 
   return (
     <header>
@@ -42,15 +41,30 @@ const Header = () => {
           }
         >
           <nav className="col-span-2 my-5 md:my-0">
-            <Link className="mx-2" to="/">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "mx-3 text-color" : "mx-3 text-black"
+              }
+              to="/"
+            >
               Home
-            </Link>
-            <Link className="mx-2" to="/manage-product">
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "mx-3 text-color" : "mx-3 text-black"
+              }
+              to="/manage-product"
+            >
               Manage Product
-            </Link>
-            <Link className="mx-2" to="/blog">
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "mx-3 text-color" : "mx-3 text-black"
+              }
+              to="/blog"
+            >
               Blog
-            </Link>
+            </NavLink>
           </nav>
           <div className="button-grp">
             <button
