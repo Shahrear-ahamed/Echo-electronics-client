@@ -1,0 +1,17 @@
+.hero-section {
+  height: 85vh;
+  background-blend-mode: multiply;
+  background: rgb(0, 0, 0, 0.4) url("../../../images/banner/warehouse-1.jpg");
+}
+
+@media (max-width: 780px) {
+  .title {
+    display: block;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 640px) {
+  .hero-section {
+    height: 100vh;
+  }
+}

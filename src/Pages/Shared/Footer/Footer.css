@@ -1,3 +1,11 @@
-.footer {
+/* .footer {
   height: 200px;
+} */
+.font-icon {
+  font-size: 25px;
+}
+.footer-link:hover,
+.icons:hover {
+  transition: all 0.4s ease;
+  color: #6ead4e;
 }

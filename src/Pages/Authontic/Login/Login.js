@@ -9,14 +9,14 @@ const Login = () => {
         <h2 className="text-3xl text-gray-600 font-bold text-center">Login</h2>
         <form className="">
           <input
-            className="w-full border-b-2 border-black my-3 py-1 outline-none"
+            className="w-full border-b-2 border-gray-600 my-3 py-1 outline-none"
             type="email"
             placeholder="Email"
             name="email"
           />
           <br />
           <input
-            className="w-full border-b-2 border-black my-2 py-1 outline-none"
+            className="w-full border-b-2 border-gray-600 my-2 py-1 outline-none"
             type="password"
             name="password"
             placeholder="Password"

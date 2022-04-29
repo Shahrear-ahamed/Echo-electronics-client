@@ -1,7 +1,18 @@
+.header {
+  height: 160px;
+  transition: all .5s ease;
+}
 .theme-color {
   background-color: #6ead4e;
 }
 
 .border-color {
   border-color: #6ead4e;
+}
+
+.hambargur-bar {
+  height: 3px;
+  width: 35px;
+  margin: 8px 0;
+  background-color: black;
 }
