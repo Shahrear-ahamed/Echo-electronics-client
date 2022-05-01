@@ -10,7 +10,7 @@ const Header = () => {
   const [hamburger, setHamburget] = useState(false);
 
   return (
-    <header>
+    <header className="">
       <div className="container py-4 mx-auto px-7 flex flex-col md:flex-row justify-between items-center">
         <div className="flex justify-between w-full md:w-60">
           <button onClick={() => navigate("/")}>
@@ -43,7 +43,7 @@ const Header = () => {
           <nav className="col-span-2 my-5 md:my-0">
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-3 text-color" : "mx-3 text-black"
+                isActive ? "mx-2 text-color" : "mx-2 text-black link"
               }
               to="/"
             >
@@ -51,7 +51,7 @@ const Header = () => {
             </NavLink>
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-3 text-color" : "mx-3 text-black"
+                isActive ? "mx-2 text-color" : "mx-2 text-black link"
               }
               to="/manage-product"
             >
@@ -59,7 +59,7 @@ const Header = () => {
             </NavLink>
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-3 text-color" : "mx-3 text-black"
+                isActive ? "mx-2 text-color" : "mx-2 text-black link"
               }
               to="/blog"
             >

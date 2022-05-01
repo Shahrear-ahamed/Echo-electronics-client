@@ -1,0 +1,25 @@
+.agreement-section {
+  background: rgb(0, 0, 0, 0.7) url("../../../images//agreement.png");
+  background-position: center;
+  background-blend-mode: multiply;
+}
+
+.bar {
+  background-color: #6ead4e;
+  height: 3px;
+  margin: 0 auto;
+  width: 70px;
+}
+.agreement-form {
+  max-width: 650px;
+  width: 90%;
+}
+
+.text-message {
+  resize: none;
+  height: 170px;
+}
+
+.agreement-input {
+  background-color: rgba(0, 0, 0, 0.4);
+}
