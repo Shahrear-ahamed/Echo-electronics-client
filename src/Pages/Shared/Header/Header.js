@@ -3,9 +3,13 @@ import "./Header.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import hamburgerMenu from "../../../images/bars-solid.svg";
 import logoDark from "../../../images/logo/logo-dark.png";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import { signOut } from "firebase/auth";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
 
   const [hamburger, setHamburget] = useState(false);
 
@@ -67,18 +71,29 @@ const Header = () => {
             </NavLink>
           </nav>
           <div className="button-grp">
-            <button
-              onClick={() => navigate("/register")}
-              className=" px-5 py-2 border-2 rounded-lg border-color"
-            >
-              Register
-            </button>
-            <button
-              onClick={() => navigate("/login")}
-              className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
-            >
-              Login
-            </button>
+            {user ? (
+              <button
+                onClick={() => signOut(auth)}
+                className=" px-5 py-2 border-2 rounded-lg border-color"
+              >
+                Log Out
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate("/register")}
+                  className=" px-5 py-2 border-2 rounded-lg border-color"
+                >
+                  Register
+                </button>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
+                >
+                  Login
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

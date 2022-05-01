@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useAuthState,
   useCreateUserWithEmailAndPassword,
@@ -16,20 +16,26 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user] = useAuthState(auth);
-  const [createUserWithEmailAndPassword] =
+  const [createUserWithEmailAndPassword, userSignIn] =
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile] = useUpdateProfile(auth);
   const [sendEmailVerification] = useSendEmailVerification(auth);
 
   const from = location.state?.from?.pathname || "/";
+  useEffect(() => {
+    if (userSignIn) {
+      navigate(from);
+      toast.success("Success fully Registered");
+    } else if (user) {
+      navigate("/");
+      toast.warning("Already login with an account");
+    }
+  });
 
   // create user are here
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (user) {
-      return toast.error("You are already log in.");
-    }
     //  get user input data
     const name = e.target.name.value;
     const email = e.target.email.value;
@@ -41,13 +47,12 @@ const Register = () => {
       await createUserWithEmailAndPassword(email, password);
       await updateProfile({ displayName: name });
       await sendEmailVerification(email);
-      // await navigate(from);
+      // send data to backend for jwt
+      await navigate(from);
     } else {
       toast.error("Password and confirm password are not match");
     }
   };
-
-  console.log(errorCreate);
 
   // register page design are here
   return (
