@@ -10,6 +10,7 @@ import PageError from "./Pages/Shared/PageError/PageError";
 import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
 import Inventory from "./Pages/Inventory/Inventory";
 import "react-toastify/dist/ReactToastify.css";
+import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="*" element={<PageError />} />
       </Routes>
       <Footer />

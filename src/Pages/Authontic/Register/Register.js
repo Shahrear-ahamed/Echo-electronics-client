@@ -26,6 +26,7 @@ const Register = () => {
     if (userSignIn) {
       navigate(from);
       toast.success("Success fully Registered");
+      toast.success("Verify mail was send pleae verify!");
     } else if (user) {
       navigate("/");
       toast.warning("Already login with an account");
@@ -48,7 +49,6 @@ const Register = () => {
       await updateProfile({ displayName: name });
       await sendEmailVerification(email);
       // send data to backend for jwt
-      await navigate(from);
     } else {
       toast.error("Password and confirm password are not match");
     }
@@ -67,6 +67,7 @@ const Register = () => {
             type="text"
             placeholder="Name"
             name="name"
+            required
           />
           <br />
           <input
@@ -74,6 +75,7 @@ const Register = () => {
             type="email"
             placeholder="Email"
             name="email"
+            required
           />
           <br />
           <input
@@ -81,6 +83,7 @@ const Register = () => {
             type="password"
             name="password"
             placeholder="Password"
+            required
           />
           <br />
           <input
@@ -88,6 +91,7 @@ const Register = () => {
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
+            required
           />
           <input
             className="theme-color text-white w-full py-3 rounded-md mt-5 cursor-pointer"
