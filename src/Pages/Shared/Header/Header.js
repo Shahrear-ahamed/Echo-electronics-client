@@ -43,7 +43,7 @@ const Header = () => {
           <nav className="col-span-2 my-5 md:my-0">
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black link"
+                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
               }
               to="/"
             >
@@ -51,7 +51,7 @@ const Header = () => {
             </NavLink>
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black link"
+                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
               }
               to="/manage-product"
             >
@@ -59,7 +59,7 @@ const Header = () => {
             </NavLink>
             <NavLink
               className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black link"
+                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
               }
               to="/blog"
             >

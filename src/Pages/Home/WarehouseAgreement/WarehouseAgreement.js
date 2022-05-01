@@ -56,12 +56,12 @@ const WarehouseAgreement = () => {
               name="agreementYear"
               id="agreementYear"
             >
-              <option value="one">5 Years</option>
-              <option value="one" selected>
+              <option value="five">5 Years</option>
+              <option value="eight" selected>
                 8 Years
               </option>
-              <option value="one">10 Years</option>
-              <option value="one">15 Years</option>
+              <option value="ten">10 Years</option>
+              <option value="twelve">12 Years</option>
             </select>
           </div>
           <div className="col-span-2">
