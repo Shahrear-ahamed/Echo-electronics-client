@@ -8,7 +8,7 @@ const WarehouseAgreement = () => {
           Become a partner with us{" "}
         </h2>
         <div className="bar mb-4"></div>
-        <form className="agreement-form mx-auto grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
+        <form className="agreement-form mx-auto mt-4 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
           <div>
             <p>
               <label htmlFor="name">Company Name</label>

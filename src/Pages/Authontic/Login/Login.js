@@ -1,8 +1,17 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useLocation, useNavigate } from "react-router-dom";
+import auth from "../../../firebase.init";
 import { Link } from "react-router-dom";
 import Social from "../Social/Social";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user] = useAuthState(auth);
+  console.log(user);
+
+  const from = location.state?.from?.pathname || "/";
   return (
     <section className="flex flex-col items-center my-10">
       <div className="grid content-between rounded-md py-5 px-12 mx-auto register shadow-hard">
