@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  useAuthState,
   useCreateUserWithEmailAndPassword,
   useSendEmailVerification,
   useUpdateProfile,
@@ -11,11 +10,11 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import auth from "../../../firebase.init";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user] = useAuthState(auth);
   const [createUserWithEmailAndPassword, userSignIn] =
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile] = useUpdateProfile(auth);
@@ -27,9 +26,6 @@ const Register = () => {
       navigate(from);
       toast.success("Success fully Registered");
       toast.success("Verify mail was send pleae verify!");
-    } else if (user) {
-      navigate("/");
-      toast.warning("Already login with an account");
     }
   });
 
@@ -49,6 +45,10 @@ const Register = () => {
       await updateProfile({ displayName: name });
       await sendEmailVerification(email);
       // send data to backend for jwt
+      const token = await axios.post("http://localhost:5000/generatetoken", {
+        email,
+      });
+      localStorage.setItem("access_toke", token.data.jwToken);
     } else {
       toast.error("Password and confirm password are not match");
     }

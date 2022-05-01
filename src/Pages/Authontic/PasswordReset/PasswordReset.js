@@ -46,7 +46,7 @@ const PasswordReset = () => {
         <div>
           <p className="pt-3">
             Login?{" "}
-            <Link className="link" to="/password-reset">
+            <Link className="link" to="/login">
               Click here
             </Link>
           </p>

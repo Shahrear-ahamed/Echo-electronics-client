@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import {
-  useAuthState,
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,7 +12,6 @@ import Social from "../Social/Social";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user] = useAuthState(auth);
   const [signInWithEmailAndPassword, userLogin, , errorLogin] =
     useSignInWithEmailAndPassword(auth);
 
@@ -21,9 +20,6 @@ const Login = () => {
     if (userLogin) {
       navigate(from);
       toast.success("Success fully login");
-    } else if (user) {
-      navigate("/");
-      toast.warning("Already login with an account");
     }
   });
 
@@ -34,7 +30,7 @@ const Login = () => {
   }, [errorLogin]);
 
   // handle user login
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     // get uesr data
@@ -42,7 +38,11 @@ const Login = () => {
     const password = e.target.password.value;
     // login user
     if (email && password) {
-      signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(email, password);
+      const token = await axios.post("http://localhost:5000/generatetoken", {
+        email,
+      });
+      localStorage.setItem("access_toke", token.data.jwToken);
     }
     // make jwt token for ueser
   };

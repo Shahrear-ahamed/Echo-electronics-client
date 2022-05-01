@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +14,15 @@ const Social = () => {
   const from = location.state?.from?.pathname || "/";
   useEffect(() => {
     if (userGoogle) {
+      const setJwt = async () => {
+        const email = userGoogle.user.email;
+        // send data to backend for jwt
+        const token = await axios.post("http://localhost:5000/generatetoken", {
+          email,
+        });
+        localStorage.setItem("access_toke", token.data.jwToken);
+      };
+      setJwt();
       navigate(from);
       toast.success("Success fully Registered");
     }
