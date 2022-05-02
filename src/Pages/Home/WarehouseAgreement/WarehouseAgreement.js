@@ -16,7 +16,7 @@ const WarehouseAgreement = () => {
                 <label htmlFor="name">Company Name</label>
               </p>
               <input
-                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input data-input"
                 type="text"
                 name="name"
                 id="name"
@@ -28,7 +28,7 @@ const WarehouseAgreement = () => {
                 <label htmlFor="email">Contact Mail</label>
               </p>
               <input
-                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input data-input"
                 type="email"
                 name="email"
                 id="email"
@@ -40,7 +40,7 @@ const WarehouseAgreement = () => {
                 <label htmlFor="mobile">Contact Number</label>
               </p>
               <input
-                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input data-input"
                 type="number"
                 name="number"
                 id="mobile"

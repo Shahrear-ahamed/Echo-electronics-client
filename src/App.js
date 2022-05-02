@@ -1,16 +1,18 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Header from "./Pages/Shared/Header/Header";
-import Home from "./Pages/Home/Home/Home";
-import Footer from "./Pages/Shared/Footer/Footer";
-import Register from "./Pages/Authontic/Register/Register";
-import Login from "./Pages/Authontic/Login/Login";
-import PageError from "./Pages/Shared/PageError/PageError";
-import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
-import Inventory from "./Pages/Inventory/Inventory";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+import AddItems from "./Pages/AddItems/AddItems";
+import Login from "./Pages/Authontic/Login/Login";
 import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
+import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
+import Register from "./Pages/Authontic/Register/Register";
+import Home from "./Pages/Home/Home/Home";
+import Inventory from "./Pages/Inventory/Inventory";
+import ManageProduct from "./Pages/ManageProduct/ManageProduct";
+import Footer from "./Pages/Shared/Footer/Footer";
+import Header from "./Pages/Shared/Header/Header";
+import PageError from "./Pages/Shared/PageError/PageError";
 import SingleInventoryItem from "./Pages/SingleInventoryItem/SingleInventoryItem";
 
 function App() {
@@ -35,6 +37,15 @@ function App() {
             </PrivetRoute>
           }
         />
+        <Route
+          path="/add-items"
+          element={
+            <PrivetRoute>
+              <AddItems />
+            </PrivetRoute>
+          }
+        />
+        <Route path="/manage-inventory" element={<ManageProduct />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/password-reset" element={<PasswordReset />} />

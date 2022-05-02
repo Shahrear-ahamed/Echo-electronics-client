@@ -1,11 +1,11 @@
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
-import "./Header.css";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink, useNavigate } from "react-router-dom";
+import auth from "../../../firebase.init";
 import hamburgerMenu from "../../../images/bars-solid.svg";
 import logoDark from "../../../images/logo/logo-dark.png";
-import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../../../firebase.init";
-import { signOut } from "firebase/auth";
+import "./Header.css";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Header = () => {
   const [hamburger, setHamburget] = useState(false);
 
   return (
-    <header className="">
+    <header className="shadow-md">
       <div className="container py-4 mx-auto px-7 flex flex-col md:flex-row justify-between items-center">
         <div className="flex justify-between w-full md:w-60">
           <button onClick={() => navigate("/")}>
@@ -59,7 +59,7 @@ const Header = () => {
                 className={({ isActive }) =>
                   isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
                 }
-                to="/manage-product"
+                to="/manage-inventory"
               >
                 Manage Inventory
               </NavLink>

@@ -63,7 +63,7 @@ const Register = () => {
         </h2>
         <form onSubmit={handleRegister}>
           <input
-            className="w-full border-b-2 border-gray-600 my-3 py-1 outline-none"
+            className="w-full data-input border-b-2 border-gray-600 my-3 py-1 outline-none"
             type="text"
             placeholder="Name"
             name="name"
@@ -71,7 +71,7 @@ const Register = () => {
           />
           <br />
           <input
-            className="w-full border-b-2 border-gray-600 my-3 py-1 outline-none"
+            className="w-full data-input border-b-2 border-gray-600 my-3 py-1 outline-none"
             type="email"
             placeholder="Email"
             name="email"
@@ -79,7 +79,7 @@ const Register = () => {
           />
           <br />
           <input
-            className="w-full border-b-2 border-gray-600 my-2 py-1 outline-none"
+            className="w-full data-input border-b-2 border-gray-600 my-2 py-1 outline-none"
             type="password"
             name="password"
             placeholder="Password"
@@ -87,14 +87,14 @@ const Register = () => {
           />
           <br />
           <input
-            className="w-full border-b-2 border-gray-600 my-2 py-1 outline-none"
+            className="w-full data-input border-b-2 border-gray-600 my-2 py-1 outline-none"
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
             required
           />
           <input
-            className="theme-color text-white w-full py-3 rounded-md mt-5 cursor-pointer"
+            className="theme-color data-input text-white w-full py-3 rounded-md mt-5 cursor-pointer"
             type="submit"
             value="Register"
           />

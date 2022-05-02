@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SingleInventoryItem = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const [singleInventoryItem, setSingleInventoryItem] = useState({});
   const { _id, image, productName, desc, price, supplier } =
@@ -17,13 +18,11 @@ const SingleInventoryItem = () => {
       setItemQuantity(response.data.quantity);
     });
   }, [id]);
-  console.log(singleInventoryItem);
 
   // reduce quantity by clicking
   const handleDeliver = () => {
     const reduceQuantity = itemQuantity - 1;
     setItemQuantity(reduceQuantity);
-    console.log(itemQuantity);
     const url = `http://localhost:5000/inventory/${id}`;
     axios
       .put(url, {
@@ -58,12 +57,12 @@ const SingleInventoryItem = () => {
   return (
     <section>
       <div className="container mx-auto justify-center grid grid-cols-1 md:grid-cols-2">
-        <div>
+        <div className="h-full grid items-center content-center">
           <img
             src={image}
             alt={productName}
             className="mx-auto"
-            style={{ width: "400px" }}
+            style={{ width: "450px" }}
           />
           <p className="text-center">
             <small>{productName}</small>
@@ -74,36 +73,43 @@ const SingleInventoryItem = () => {
             Product Details
           </h2>
           <div>
-            <p className="py-2 border-y-2 border-black border-opacity-50">
-              Product Name: {productName}
-            </p>
-            <p className="py-2 border-b-2 border-black border-opacity-50">
+            <h3 className="text-xl py-2 px-5 border-y-2 border-black border-opacity-50">
+              Product Name: <span className="font-semibold">{productName}</span>
+            </h3>
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
               Product ID: {_id}
             </p>
-            <p className="py-2 border-b-2 border-black border-opacity-50">
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
               Price: ${price}
             </p>
-            <p className="py-2 border-b-2 border-black border-opacity-50 flex justify-between items-center">
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
               Quantity: {itemQuantity}
+            </p>
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
+              Supplier: {supplier}
+            </p>
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
+              {desc}
+            </p>
+            <div className="flex justify-between my-5  md:mx-5">
               <button
                 onClick={handleDeliver}
                 className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
               >
                 Deliver
               </button>
-            </p>
-            <p className="py-2 border-b-2 border-black border-opacity-50">
-              Supplier: {supplier}
-            </p>
-            <p className="py-2 border-b-2 border-black border-opacity-50">
-              {desc}
-            </p>
+              <button 
+              onClick={()=>navigate("/manage-inventory")}
+              className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color">
+                Manage Inventories
+              </button>
+            </div>
             <div className="text-center my-5 pb-5">
               <h3 className="my-5 text-2xl font-semibold">Update Product</h3>
 
               <div>
                 <input
-                  className="border-b-2 border-gray-600 my-2 mr-6 py-1 px-2 outline-none"
+                  className="data-input border-b-2 border-gray-600 my-2 mr-6 py-1 px-2 outline-none"
                   type="number"
                   ref={stockAmount}
                   placeholder="Stock Amount"

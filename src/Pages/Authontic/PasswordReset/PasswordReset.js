@@ -30,7 +30,7 @@ const PasswordReset = () => {
         <h2 className="text-3xl text-gray-600 font-bold text-center">Login</h2>
         <form onSubmit={handlePasswordReset}>
           <input
-            className="w-full border-b-2 border-gray-600 my-3 py-1 outline-none"
+            className="data-input w-full border-b-2 border-gray-600 my-3 py-1 outline-none"
             type="email"
             placeholder="Email"
             name="email"
@@ -38,7 +38,7 @@ const PasswordReset = () => {
           />
           <br />
           <input
-            className="theme-color text-white w-full py-3 rounded-md mt-5 cursor-pointer"
+            className="data-input theme-color text-white w-full py-3 rounded-md mt-5 cursor-pointer"
             type="submit"
             value="Login"
           />

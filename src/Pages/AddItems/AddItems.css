@@ -1,0 +1,6 @@
+.addItems-input {
+  background-color: rgba(68, 68, 68, 0.2);
+}
+.addItems-input::placeholder{
+    color: rgba(0, 0, 0, 0.7);
+}
