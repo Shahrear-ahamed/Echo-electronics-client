@@ -28,7 +28,7 @@ const Header = () => {
 
           <button
             onClick={() => setHamburget(!hamburger)}
-            className="block md:hidden"
+            className="block md:hidden "
           >
             <img
               src={hamburgerMenu}
@@ -44,32 +44,77 @@ const Header = () => {
               : "hidden md:w-3/5 md:flex items-center justify-between"
           }
         >
-          <nav className="col-span-2 my-5 md:my-0">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
-              }
-              to="/"
-            >
-              Home
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
-              }
-              to="/manage-product"
-            >
-              Manage Product
-            </NavLink>
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
-              }
-              to="/blog"
-            >
-              Blog
-            </NavLink>
-          </nav>
+          <div className="col-span-2 my-5 md:my-0">
+            {" "}
+            <nav className="flex flex-col items-start md:flex-row ">
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
+                }
+                to="/"
+              >
+                Home
+              </NavLink>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
+                }
+                to="/manage-product"
+              >
+                Manage Inventory
+              </NavLink>
+              {user ? (
+                <>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "mx-2 text-color"
+                        : "mx-2 text-black header-link"
+                    }
+                    to="/manage-items"
+                  >
+                    Manage Items
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "mx-2 text-color"
+                        : "mx-2 text-black header-link"
+                    }
+                    to="/add-items"
+                  >
+                    Add Items
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "mx-2 text-color"
+                        : "mx-2 text-black header-link"
+                    }
+                    to="/my-items"
+                  >
+                    My Items
+                  </NavLink>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "mx-2 text-color"
+                        : "mx-2 text-black header-link"
+                    }
+                    to="/blog"
+                  >
+                    Blog
+                  </NavLink>
+                </>
+              )}
+            </nav>
+          </div>
+
+          {/* user interaction are here login or logout */}
+
           <div className="button-grp">
             {user ? (
               <button

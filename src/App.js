@@ -11,6 +11,7 @@ import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
 import Inventory from "./Pages/Inventory/Inventory";
 import "react-toastify/dist/ReactToastify.css";
 import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
+import SingleInventoryItem from "./Pages/SingleInventoryItem/SingleInventoryItem";
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
           element={
             <PrivetRoute>
               <Inventory />
+            </PrivetRoute>
+          }
+        />
+        <Route
+          path="/inventory/:id"
+          element={
+            <PrivetRoute>
+              <SingleInventoryItem />
             </PrivetRoute>
           }
         />

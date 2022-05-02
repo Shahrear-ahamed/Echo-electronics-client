@@ -8,63 +8,64 @@ const WarehouseAgreement = () => {
           Become a partner with us{" "}
         </h2>
         <div className="bar mb-4"></div>
-        <form className="agreement-form mx-auto mt-4 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
-          <div>
-            <p>
-              <label htmlFor="name">Company Name</label>
-            </p>
-            <input
-              className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Company Name"
-            />
+        <form className="agreement-form mx-auto mt-4">
+          <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
+            {" "}
+            <div>
+              <p>
+                <label htmlFor="name">Company Name</label>
+              </p>
+              <input
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Company Name"
+              />
+            </div>
+            <div>
+              <p>
+                <label htmlFor="email">Contact Mail</label>
+              </p>
+              <input
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Contact Email"
+              />
+            </div>
+            <div>
+              <p>
+                <label htmlFor="mobile">Contact Number</label>
+              </p>
+              <input
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                type="number"
+                name="number"
+                id="mobile"
+                placeholder="Contact Number"
+              />
+            </div>
+            <div>
+              <p>
+                <label htmlFor="agreementYear">Agreement Year</label>
+              </p>
+              <select
+                className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
+                name="agreementYear"
+                id="agreementYear"
+                defaultValue={"default"}
+              >
+                <option value="default">Choose one ...</option>
+                <option value="1">5 Years</option>
+                <option value="2">8 Years</option>
+                <option value="3">10 Years</option>
+                <option value="4">12 Years</option>
+              </select>
+            </div>
           </div>
-
-          <div>
-            <p>
-              <label htmlFor="email">Contact Mail</label>
-            </p>
-            <input
-              className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Contact Email"
-            />
-          </div>
-
-          <div>
-            <p>
-              <label htmlFor="mobile">Contact Number</label>
-            </p>
-            <input
-              className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
-              type="number"
-              name="number"
-              id="mobile"
-              placeholder="Contact Number"
-            />
-          </div>
-          <div>
-            <p>
-              <label htmlFor="agreementYear">Agreement Year</label>
-            </p>
-            <select
-              className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
-              name="agreementYear"
-              id="agreementYear"
-            >
-              <option value="five">5 Years</option>
-              <option value="eight" selected>
-                8 Years
-              </option>
-              <option value="ten">10 Years</option>
-              <option value="twelve">12 Years</option>
-            </select>
-          </div>
-          <div className="col-span-2">
+          <div className="">
             <label htmlFor="message">Your Message</label>
             <textarea
               className="text-message w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"

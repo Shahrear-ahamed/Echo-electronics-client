@@ -17,10 +17,10 @@ const SingleItem = ({ product }) => {
           {quantity}
         </span>
       </p>
-      <h3 className="mb-3">Supplier Name: {supplier}</h3>
+      <h3 className="mb-3">Supplier: {supplier}</h3>
       <p>{desc}</p>
       <button
-        onClick={() => navigate(`/manage-product/${_id}`)}
+        onClick={() => navigate(`/inventory/${_id}`)}
         className="mt-4 px-5 py-2 rounded-md theme-color text-white"
       >
         Stock Update
