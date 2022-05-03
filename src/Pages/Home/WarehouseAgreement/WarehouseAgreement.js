@@ -1,6 +1,39 @@
+import axios from "axios";
+import { toast } from "react-toastify";
 import "./WarehouseAgreement.css";
 
 const WarehouseAgreement = () => {
+  const handleAgreementClient = (e) => {
+    e.preventDefault();
+    const url = "http://localhost:5000/warehouseagreement";
+    // information
+    const companyName = e.target.name.value;
+    const email = e.target.email.value;
+    const number = parseInt(e.target.number.value);
+    const agreementYear = e.target.agreementYear.value;
+    const message = e.target.message.value;
+
+    // send date for future inventigation
+    const time = new Date(Date.now()).toLocaleString();
+
+    const agreementObj = {
+      companyName,
+      email,
+      number,
+      agreementYear,
+      message,
+      time,
+    };
+
+    axios.post(url, agreementObj).then((response) => {
+      if (response.data.acknowledged) {
+        toast.success("We stored your information. We will notify you soon!!");
+        e.target.reset();
+      }
+    });
+  };
+
+  // render agreement page
   return (
     <div className="agreement-section py-10 grid items-center text-white">
       <div className="container mx-auto">
@@ -8,7 +41,10 @@ const WarehouseAgreement = () => {
           Become a partner with us{" "}
         </h2>
         <div className="bar mb-4"></div>
-        <form className="agreement-form mx-auto mt-4">
+        <form
+          onSubmit={handleAgreementClient}
+          className="agreement-form mx-auto mt-4"
+        >
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
             {" "}
             <div>
@@ -58,10 +94,10 @@ const WarehouseAgreement = () => {
                 defaultValue={"default"}
               >
                 <option value="default">Choose one ...</option>
-                <option value="1">5 Years</option>
-                <option value="2">8 Years</option>
-                <option value="3">10 Years</option>
-                <option value="4">12 Years</option>
+                <option value="5 Years">5 Years</option>
+                <option value="8 Years">8 Years</option>
+                <option value="10 Years">10 Years</option>
+                <option value="12 Years">12 Years</option>
               </select>
             </div>
           </div>
