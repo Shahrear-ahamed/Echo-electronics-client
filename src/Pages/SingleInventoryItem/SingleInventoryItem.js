@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SingleInventoryItem = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const [singleInventoryItem, setSingleInventoryItem] = useState({});
   const { _id, image, productName, desc, price, supplier } =
@@ -35,11 +35,12 @@ const SingleInventoryItem = () => {
       });
   };
   // update restock
-  const stockAmount = useRef();
 
-  const handleRestock = () => {
-    const stockAmountNumber = parseInt(stockAmount.current.value);
-    const totalStock = stockAmountNumber + itemQuantity;
+  const handleRestock = (e) => {
+    e.preventDefault();
+    const reStock = parseInt(e.target.reStock.value);
+    const totalStock = reStock + parseInt(itemQuantity);
+    console.log(totalStock);
     setItemQuantity(totalStock);
     const url = `http://localhost:5000/inventory/${id}`;
     axios
@@ -49,7 +50,7 @@ const SingleInventoryItem = () => {
       .then((response) => {
         if (response.data.matchedCount > 0) {
           toast.success("Stock update Successfully");
-          stockAmount.current.value = "";
+          e.target.reset();
         }
       });
   };
@@ -98,30 +99,30 @@ const SingleInventoryItem = () => {
               >
                 Deliver
               </button>
-              <button 
-              onClick={()=>navigate("/manage-inventory")}
-              className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color">
+              <button
+                onClick={() => navigate("/manage-inventory")}
+                className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
+              >
                 Manage Inventories
               </button>
             </div>
             <div className="text-center my-5 pb-5">
               <h3 className="my-5 text-2xl font-semibold">Update Product</h3>
 
-              <div>
+              <form onSubmit={handleRestock}>
                 <input
                   className="data-input border-b-2 border-gray-600 my-2 mr-6 py-1 px-2 outline-none"
+                  name="reStock"
                   type="number"
-                  ref={stockAmount}
                   placeholder="Stock Amount"
                   required
                 />
-                <button
-                  onClick={handleRestock}
+                <input
                   className="theme-color text-white py-3 px-4 rounded-md mt-5 cursor-pointer"
-                >
-                  Re stock
-                </button>
-              </div>
+                  type="submit"
+                  value="Re Stock"
+                />
+              </form>
             </div>
           </div>
         </div>

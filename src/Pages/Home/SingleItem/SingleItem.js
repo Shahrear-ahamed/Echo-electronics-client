@@ -18,7 +18,7 @@ const SingleItem = ({ product }) => {
         </span>
       </p>
       <h3 className="mb-3">Supplier: {supplier}</h3>
-      <p>{desc}</p>
+      <p>{desc.slice(0,100)}</p>
       <button
         onClick={() => navigate(`/inventory/${_id}`)}
         className="mt-4 px-5 py-2 rounded-md theme-color text-white"

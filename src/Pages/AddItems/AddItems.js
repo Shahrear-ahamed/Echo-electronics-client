@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import "./AddItems.css";
 
@@ -10,15 +12,33 @@ const AddItems = () => {
   // onsubmit section are here
   const handleAddItems = (e) => {
     e.preventDefault();
-    const url = `http://localhost:5000/additems?email=${email}`;
+    const url = `http://localhost:5000/inventory?email=${email}`;
+
+    // get property value
     const productName = e.target.productName.value;
     const image = e.target.imgUrl.value;
     const price = e.target.price.value;
     const quantity = e.target.quantity.value;
     const desc = e.target.description.value;
     const sold = 0;
+    const itemObj = {
+      supplier: displayName,
+      email,
+      image,
+      productName,
+      price,
+      quantity,
+      desc,
+      sold,
+    };
 
     if (productName && image && price && quantity && desc) {
+      axios.post(url, itemObj).then((response) => {
+        if (response.data.acknowledged) {
+          toast.success("Product Add successfully");
+          e.target.reset();
+        }
+      });
     }
   };
 

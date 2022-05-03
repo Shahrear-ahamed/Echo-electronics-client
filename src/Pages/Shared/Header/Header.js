@@ -14,7 +14,7 @@ const Header = () => {
   const [hamburger, setHamburget] = useState(false);
 
   return (
-    <header className="shadow-md">
+    <header className="shadow-md z-50">
       <div className="container py-4 mx-auto px-7 flex flex-col md:flex-row justify-between items-center">
         <div className="flex justify-between w-full md:w-60">
           <button onClick={() => navigate("/")}>
@@ -65,16 +65,6 @@ const Header = () => {
               </NavLink>
               {user ? (
                 <>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive
-                        ? "mx-2 text-color"
-                        : "mx-2 text-black header-link"
-                    }
-                    to="/manage-items"
-                  >
-                    Manage Items
-                  </NavLink>
                   <NavLink
                     className={({ isActive }) =>
                       isActive

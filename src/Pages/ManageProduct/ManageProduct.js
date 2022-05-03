@@ -2,18 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const ManageProduct = () => {
   const [manageProducts, setManageProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const url = "http://localhost:5000/manageinventory";
+    const url = "http://localhost:5000/inventory";
     axios(url).then((response) => setManageProducts(response.data));
   }, []);
 
   // delete item
   const handleDelete = (id) => {
-    const url = `http://localhost:5000/manageinventory/${id}`;
+    const url = `http://localhost:5000/inventory/${id}`;
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",
@@ -58,6 +60,14 @@ const ManageProduct = () => {
             ))}
           </tbody>
         </table>
+        <div>
+          <button
+            onClick={() => navigate("/add-items")}
+            className="theme-color grid justify-center items-center mx-auto my-4 px-5 py-2 text-white rounded-md cursor-pointer"
+          >
+            Add new item
+          </button>
+        </div>
       </div>
     </div>
   );
