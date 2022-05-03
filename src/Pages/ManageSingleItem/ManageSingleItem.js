@@ -3,11 +3,13 @@ import React from "react";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const ManageSingleItem = ({ product, handleDelete }) => {
-  const {_id, image, productName, price, quantity } = product;
+  const { _id, image, productName, price, quantity } = product;
 
-  
   return (
-    <tr className="items-center border-b-2 border-gray-500">
+    <tr
+      className="items-center border-b-2 border-gray-500"
+      style={{ height: "110px" }}
+    >
       <td>
         <img
           src={image}
@@ -21,7 +23,7 @@ const ManageSingleItem = ({ product, handleDelete }) => {
       <td>{quantity}</td>
       <td>
         <button
-          onClick={()=>handleDelete(_id)}
+          onClick={() => handleDelete(_id)}
           className="bg-red-600 col-span-2 mx-auto my-4 px-3 py-2 rounded-md"
         >
           <FontAwesomeIcon className="text-white" icon={faTrashCan} />

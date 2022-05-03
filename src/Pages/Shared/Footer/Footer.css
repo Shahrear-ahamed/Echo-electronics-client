@@ -1,6 +1,7 @@
-/* .footer {
-  height: 200px;
-} */
+.footer {
+  position: sticky;
+  top: 100%;
+}
 .font-icon {
   font-size: 25px;
 }

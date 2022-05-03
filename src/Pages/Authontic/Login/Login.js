@@ -42,7 +42,7 @@ const Login = () => {
       const token = await axios.post("http://localhost:5000/generatetoken", {
         email,
       });
-      localStorage.setItem("access_toke", token.data.jwToken);
+      localStorage.setItem("access_token", token.data.jwToken);
     }
     // make jwt token for ueser
   };

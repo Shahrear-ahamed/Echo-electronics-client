@@ -10,6 +10,7 @@ import Register from "./Pages/Authontic/Register/Register";
 import Home from "./Pages/Home/Home/Home";
 import Inventory from "./Pages/Inventory/Inventory";
 import ManageProduct from "./Pages/ManageProduct/ManageProduct";
+import Myitems from "./Pages/MyItems/Myitems";
 import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
 import PageError from "./Pages/Shared/PageError/PageError";
@@ -45,7 +46,22 @@ function App() {
             </PrivetRoute>
           }
         />
-        <Route path="/manage-inventory" element={<ManageProduct />} />
+        <Route
+          path="/my-items"
+          element={
+            <PrivetRoute>
+              <Myitems />
+            </PrivetRoute>
+          }
+        />
+        <Route
+          path="/manage-inventory"
+          element={
+            <PrivetRoute>
+              <ManageProduct />
+            </PrivetRoute>
+          }
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/password-reset" element={<PasswordReset />} />

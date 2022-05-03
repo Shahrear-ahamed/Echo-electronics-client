@@ -35,7 +35,7 @@ const ManageProduct = () => {
     });
   };
   return (
-    <div>
+    <section>
       <div className="container mx-auto">
         <table className="my-5 mx-auto w-full" style={{ maxWidth: "850px" }}>
           <thead className="my-5">
@@ -69,7 +69,7 @@ const ManageProduct = () => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

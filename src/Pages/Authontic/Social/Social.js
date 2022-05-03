@@ -20,7 +20,7 @@ const Social = () => {
         const token = await axios.post("http://localhost:5000/generatetoken", {
           email,
         });
-        localStorage.setItem("access_toke", token.data.jwToken);
+        localStorage.setItem("access_token", token.data.jwToken);
       };
       setJwt();
       navigate(from);
