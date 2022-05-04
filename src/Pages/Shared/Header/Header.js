@@ -44,7 +44,10 @@ const Header = () => {
               : "hidden md:w-3/5 md:flex items-center justify-between"
           }
         >
-          <div className="col-span-2 my-5 md:my-0">
+          <div
+            onClick={() => setHamburget(!hamburger)}
+            className="col-span-2 my-5 md:my-0"
+          >
             {" "}
             <nav className="flex flex-col items-start md:flex-row ">
               <NavLink

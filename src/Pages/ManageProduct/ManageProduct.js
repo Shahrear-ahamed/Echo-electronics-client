@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
-import swal from "sweetalert";
+import "./ManageProduct.css";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Shared/Loading/Loading";
+import handleDelete from "../Hooks/UseHandleDelete";
 
 const ManageProduct = () => {
   const [manageProducts, setManageProducts] = useState([]);
@@ -11,6 +13,7 @@ const ManageProduct = () => {
   const [pageCount, setPageCount] = useState(0);
   const navigate = useNavigate();
   const totalPages = Math.ceil(totalProductCount / ProductCount);
+  const [loading, setLoading] = useState(true);
 
   // get page count from databse for pagination
   useEffect(() => {
@@ -21,31 +24,19 @@ const ManageProduct = () => {
   // load data from server
   useEffect(() => {
     const url = `http://localhost:5000/inventory?items=${ProductCount}&&page=${pageCount}`;
-    axios(url).then((response) => setManageProducts(response.data));
-  }, [pageCount, ProductCount]);
-
-  // delete item
-  const handleDelete = (id) => {
-    const url = `http://localhost:5000/inventory/${id}`;
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this product!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        axios.delete(url).then((response) => {
-          if (response.data.deletedCount > 0) {
-            swal("Poof! Your imaginary file has been deleted!", {
-              icon: "success",
-            });
-          }
-        });
+    axios(url).then((response) => {
+      if (response.data.length === 0) {
+        setPageCount(pageCount - 1);
+      } else {
+        setLoading(false);
+        setManageProducts(response.data);
       }
     });
-  };
-  return (
+  }, [pageCount, ProductCount]);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <section>
       <div className="container mx-auto">
         <table className="my-5 mx-auto w-full" style={{ maxWidth: "850px" }}>
@@ -78,19 +69,26 @@ const ManageProduct = () => {
           <div>
             {[...Array(totalPages)].map((page, index) => (
               <button
-                className="py-1 px-4 border-2 border-gray-500 mx-2 rounded-md"
+                className="pagination py-1 px-4 border-2 border-gray-500 mx-2 rounded-md"
                 key={index}
-                onClick={() => setPageCount(index)}
+                onClick={() => {
+                  setPageCount(index);
+                  setLoading(true);
+                }}
+                disabled={pageCount === index}
               >
                 {index + 1}
               </button>
             ))}
           </div>
           <select
-            onChange={(e) => setProductCount(e.target.value)}
+            onChange={(e) => {
+              setProductCount(e.target.value);
+              setLoading(true);
+            }}
+            defaultValue={ProductCount}
             name="productCount"
             id="productCount"
-            defaultValue={10}
             className="border-2 py-1 px-2"
           >
             <option value="10">10</option>

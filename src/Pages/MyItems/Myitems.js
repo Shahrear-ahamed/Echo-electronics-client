@@ -5,6 +5,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
+import Loading from "../Shared/Loading/Loading";
+import handleDelete from "../Hooks/UseHandleDelete";
 
 const Myitems = () => {
   const [user] = useAuthState(auth);
@@ -15,6 +17,7 @@ const Myitems = () => {
   const [pageCount, setPageCount] = useState(0);
   const totalPages = Math.ceil(totalProductCount / ProductCount);
   const [errorToast, setErrorToast] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!errorToast === "") {
@@ -33,7 +36,15 @@ const Myitems = () => {
           },
         });
         setTotalProductCount(token.data.length);
-        setMyItems(token.data);
+        setLoading(false);
+        if (token.data.length === 0) {
+          setPageCount(pageCount - 1);
+          setMyItems(token.data);
+          setLoading(false);
+        } else {
+          setMyItems(token.data);
+          setLoading(false);
+        }
       } catch (error) {
         if (error.response.status === 401 || error.response.status === 403) {
           signOut(auth);
@@ -44,7 +55,9 @@ const Myitems = () => {
     verifyToken();
   }, [ProductCount, pageCount, email]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <section>
       <div className="container mx-auto">
         <table className="my-5 mx-auto w-full" style={{ maxWidth: "850px" }}>
@@ -62,7 +75,11 @@ const Myitems = () => {
           </thead>
           <tbody className="text-center">
             {myItmes.map((product) => (
-              <ManageSingleItem key={product._id} product={product} />
+              <ManageSingleItem
+                key={product._id}
+                handleDelete={handleDelete}
+                product={product}
+              />
             ))}
           </tbody>
         </table>
@@ -73,19 +90,26 @@ const Myitems = () => {
           <div>
             {[...Array(totalPages)].map((page, index) => (
               <button
-                className="py-1 px-4 border-2 border-gray-500 mx-2 rounded-md"
+                className="pagination py-1 px-4 border-2 border-gray-500 mx-2 rounded-md"
                 key={index}
-                onClick={() => setPageCount(index)}
+                onClick={() => {
+                  setPageCount(index);
+                  setLoading(true);
+                }}
+                disabled={pageCount === index}
               >
                 {index + 1}
               </button>
             ))}
           </div>
           <select
-            onChange={(e) => setProductCount(e.target.value)}
+            onChange={(e) => {
+              setProductCount(e.target.value);
+              setLoading(true);
+            }}
             name="productCount"
             id="productCount"
-            defaultValue={10}
+            defaultValue={ProductCount}
             className="border-2 py-1 px-2"
           >
             <option value="10">10</option>

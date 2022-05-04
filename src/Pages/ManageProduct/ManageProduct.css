@@ -1,0 +1,4 @@
+.pagination:disabled {
+  background-color: gray;
+  color: white;
+}
