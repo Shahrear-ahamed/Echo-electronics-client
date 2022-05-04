@@ -4,16 +4,17 @@ import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import "./ManageProduct.css";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Shared/Loading/Loading";
-import handleDelete from "../Hooks/UseHandleDelete";
+import swal from "sweetalert";
 
 const ManageProduct = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [pageCount, setPageCount] = useState(0);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [ProductCount, setProductCount] = useState(10);
   const [manageProducts, setManageProducts] = useState([]);
   const [totalProductCount, setTotalProductCount] = useState(0);
-  const [ProductCount, setProductCount] = useState(10);
-  const [pageCount, setPageCount] = useState(0);
-  const navigate = useNavigate();
   const totalPages = Math.ceil(totalProductCount / ProductCount);
-  const [loading, setLoading] = useState(true);
 
   // get page count from databse for pagination
   useEffect(() => {
@@ -32,7 +33,30 @@ const ManageProduct = () => {
         setManageProducts(response.data);
       }
     });
-  }, [pageCount, ProductCount]);
+  }, [pageCount, ProductCount, isDeleted]);
+
+  // delete items
+  const handleDelete = (id) => {
+    const url = `http://localhost:5000/inventory/${id}`;
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this product!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axios.delete(url).then((response) => {
+          if (response.data.deletedCount > 0) {
+            setIsDeleted(!isDeleted);
+            swal("Poof! Your imaginary file has been deleted!", {
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
 
   return loading ? (
     <Loading />

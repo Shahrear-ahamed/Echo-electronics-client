@@ -10,23 +10,28 @@ const SingleInventoryItem = () => {
   const { _id, image, productName, desc, price, supplier } =
     singleInventoryItem;
   const [itemQuantity, setItemQuantity] = useState(0);
+  const [totalSold, setTotalSold] = useState(0);
 
   useEffect(() => {
     const url = `http://localhost:5000/inventory/${id}`;
     axios(url).then((response) => {
       setSingleInventoryItem(response.data);
       setItemQuantity(response.data.quantity);
+      setTotalSold(response.data.sold);
     });
   }, [id]);
 
   // reduce quantity by clicking
   const handleDeliver = () => {
     const reduceQuantity = itemQuantity - 1;
+    const soldItems = totalSold + 1;
     setItemQuantity(reduceQuantity);
+    setTotalSold(soldItems);
     const url = `http://localhost:5000/inventory/${id}`;
     axios
       .put(url, {
         quantity: reduceQuantity,
+        sold: soldItems,
       })
       .then((response) => {
         if (response.data.matchedCount > 0) {
@@ -40,7 +45,6 @@ const SingleInventoryItem = () => {
     e.preventDefault();
     const reStock = parseInt(e.target.reStock.value);
     const totalStock = reStock + parseInt(itemQuantity);
-    console.log(totalStock);
     setItemQuantity(totalStock);
     const url = `http://localhost:5000/inventory/${id}`;
     axios
@@ -85,6 +89,9 @@ const SingleInventoryItem = () => {
             </p>
             <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
               Quantity: {itemQuantity}
+            </p>
+            <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
+              Sold: {totalSold}
             </p>
             <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
               Supplier: {supplier}

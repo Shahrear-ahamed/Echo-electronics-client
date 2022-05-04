@@ -3,27 +3,36 @@ import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
+import swal from "sweetalert";
 import auth from "../../firebase.init";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
-import handleDelete from "../Hooks/UseHandleDelete";
 
 const Myitems = () => {
   const [user] = useAuthState(auth);
-  const [myItmes, setMyItems] = useState([]);
   const { email } = user;
-  const [totalProductCount, setTotalProductCount] = useState(0);
-  const [ProductCount, setProductCount] = useState(10);
-  const [pageCount, setPageCount] = useState(0);
-  const totalPages = Math.ceil(totalProductCount / ProductCount);
-  const [errorToast, setErrorToast] = useState("");
+  const [myItmes, setMyItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageCount, setPageCount] = useState(0);
+  const [errorToast, setErrorToast] = useState("");
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [ProductCount, setProductCount] = useState(10);
+  const [totalProductCount, setTotalProductCount] = useState(0);
+  const totalPages = Math.ceil(totalProductCount / ProductCount);
 
   useEffect(() => {
     if (!errorToast === "") {
       toast.warning(errorToast);
     }
   }, [errorToast]);
+
+  // get page count from databse for pagination
+  useEffect(() => {
+    const url = `http://localhost:5000/userstoredata?email=${email}`;
+    axios(url).then((res) => {
+      setTotalProductCount(res.data.result);
+    });
+  }, [email]);
 
   // find data from database
   useEffect(() => {
@@ -35,7 +44,6 @@ const Myitems = () => {
             authorization: `${email} ${localStorage.getItem("access_token")}`,
           },
         });
-        setTotalProductCount(token.data.length);
         setLoading(false);
         if (token.data.length === 0) {
           setPageCount(pageCount - 1);
@@ -53,7 +61,30 @@ const Myitems = () => {
       }
     };
     verifyToken();
-  }, [ProductCount, pageCount, email]);
+  }, [ProductCount, pageCount, email, isDeleted]);
+
+  // delete items
+  const handleDelete = (id) => {
+    const url = `http://localhost:5000/inventory/${id}`;
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this product!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axios.delete(url).then((response) => {
+          if (response.data.deletedCount > 0) {
+            setIsDeleted(!isDeleted);
+            swal("Poof! Your imaginary file has been deleted!", {
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
 
   return loading ? (
     <Loading />
