@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeroSection.css";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="hero-section text-white text-center grid justify-center items-center">
       <div className="w-10/12 mx-auto">
@@ -13,7 +15,10 @@ const HeroSection = () => {
           Founded in 2007, Echo Electronics is specializing in providing
           innovative services such as inventory management.
         </p>
-        <button className="mt-4 px-5 py-2 rounded-md theme-color">
+        <button
+          className="mt-4 px-5 py-2 rounded-md theme-color"
+          onClick={() => navigate("/blog")}
+        >
           Read More
         </button>
       </div>

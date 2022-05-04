@@ -7,8 +7,8 @@ import Login from "./Pages/Authontic/Login/Login";
 import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
 import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
 import Register from "./Pages/Authontic/Register/Register";
+import Blog from "./Pages/Blog/Blog";
 import Home from "./Pages/Home/Home/Home";
-import Inventory from "./Pages/Inventory/Inventory";
 import ManageProduct from "./Pages/ManageProduct/ManageProduct";
 import Myitems from "./Pages/MyItems/Myitems";
 import Footer from "./Pages/Shared/Footer/Footer";
@@ -22,14 +22,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/inventory"
-          element={
-            <PrivetRoute>
-              <Inventory />
-            </PrivetRoute>
-          }
-        />
         <Route
           path="/inventory/:id"
           element={
@@ -62,6 +54,7 @@ function App() {
             </PrivetRoute>
           }
         />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/password-reset" element={<PasswordReset />} />
