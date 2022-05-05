@@ -12,7 +12,7 @@ const AddItems = () => {
   // onsubmit section are here
   const handleAddItems = (e) => {
     e.preventDefault();
-    const url = `http://localhost:5000/inventory?email=${email}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory?email=${email}`;
 
     // get property value
     const productName = e.target.productName.value;

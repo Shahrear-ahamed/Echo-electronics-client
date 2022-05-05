@@ -21,14 +21,14 @@ const Myitems = () => {
   const totalPages = Math.ceil(totalProductCount / ProductCount);
 
   useEffect(() => {
-    if (!errorToast === "") {
+    if (errorToast) {
       toast.warning(errorToast);
     }
   }, [errorToast]);
 
   // get page count from databse for pagination
   useEffect(() => {
-    const url = `http://localhost:5000/userstoredata?email=${email}`;
+    const url = `https://echo-electronics.herokuapp.com/userstoredata?email=${email}`;
     axios(url).then((res) => {
       setTotalProductCount(res.data.result);
     });
@@ -36,7 +36,7 @@ const Myitems = () => {
 
   // find data from database
   useEffect(() => {
-    const url = `http://localhost:5000/inventory?email=${email}&&items=${ProductCount}&&page=${pageCount}`;
+    const url = `https://echo-electronics.herokuapp.com/singleuser?email=${email}&&items=${ProductCount}&&page=${pageCount}`;
     const verifyToken = async () => {
       try {
         const token = await axios.get(url, {
@@ -65,7 +65,7 @@ const Myitems = () => {
 
   // delete items
   const handleDelete = (id) => {
-    const url = `http://localhost:5000/inventory/${id}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",

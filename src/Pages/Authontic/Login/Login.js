@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import {
-  useSignInWithEmailAndPassword,
+  useSignInWithEmailAndPassword
 } from "react-firebase-hooks/auth";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 import Social from "../Social/Social";
@@ -39,7 +38,7 @@ const Login = () => {
     // login user
     if (email && password) {
       await signInWithEmailAndPassword(email, password);
-      const token = await axios.post("http://localhost:5000/generatetoken", {
+      const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
         email,
       });
       localStorage.setItem("access_token", token.data.jwToken);

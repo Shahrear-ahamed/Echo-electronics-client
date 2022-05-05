@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
-import "./ManageProduct.css";
 import { useNavigate } from "react-router-dom";
-import Loading from "../Shared/Loading/Loading";
 import swal from "sweetalert";
+import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
+import Loading from "../Shared/Loading/Loading";
+import "./ManageProduct.css";
 
 const ManageProduct = () => {
   const navigate = useNavigate();
@@ -18,13 +18,13 @@ const ManageProduct = () => {
 
   // get page count from databse for pagination
   useEffect(() => {
-    const url = "http://localhost:5000/inventorycount";
+    const url = "https://echo-electronics.herokuapp.com/inventorycount";
     axios(url).then((res) => setTotalProductCount(res.data.totalProduct));
   }, []);
 
   // load data from server
   useEffect(() => {
-    const url = `http://localhost:5000/inventory?items=${ProductCount}&&page=${pageCount}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory?items=${ProductCount}&&page=${pageCount}`;
     axios(url).then((response) => {
       if (response.data.length === 0) {
         setPageCount(pageCount - 1);
@@ -37,7 +37,7 @@ const ManageProduct = () => {
 
   // delete items
   const handleDelete = (id) => {
-    const url = `http://localhost:5000/inventory/${id}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",
@@ -72,8 +72,8 @@ const ManageProduct = () => {
               <th>Image</th>
               <th>Name</th>
               <th>Price</th>
-              <th>stock</th>
-              <th>stock</th>
+              <th>Stock</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody className="text-center">

@@ -13,7 +13,7 @@ const SingleInventoryItem = () => {
   const [totalSold, setTotalSold] = useState(0);
 
   useEffect(() => {
-    const url = `http://localhost:5000/inventory/${id}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     axios(url).then((response) => {
       setSingleInventoryItem(response.data);
       setItemQuantity(response.data.quantity);
@@ -27,7 +27,7 @@ const SingleInventoryItem = () => {
     const soldItems = totalSold + 1;
     setItemQuantity(reduceQuantity);
     setTotalSold(soldItems);
-    const url = `http://localhost:5000/inventory/${id}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     axios
       .put(url, {
         quantity: reduceQuantity,
@@ -46,7 +46,7 @@ const SingleInventoryItem = () => {
     const reStock = parseInt(e.target.reStock.value);
     const totalStock = reStock + parseInt(itemQuantity);
     setItemQuantity(totalStock);
-    const url = `http://localhost:5000/inventory/${id}`;
+    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     axios
       .put(url, {
         quantity: totalStock,

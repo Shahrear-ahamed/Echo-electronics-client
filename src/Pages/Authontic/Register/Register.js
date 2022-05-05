@@ -1,16 +1,15 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import {
-  useCreateUserWithEmailAndPassword,
-  useSendEmailVerification,
-  useUpdateProfile,
+    useCreateUserWithEmailAndPassword,
+    useSendEmailVerification,
+    useUpdateProfile
 } from "react-firebase-hooks/auth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import auth from "../../../firebase.init";
 import Social from "../Social/Social";
 import "./Register.css";
-import { Link } from "react-router-dom";
-import auth from "../../../firebase.init";
-import { toast } from "react-toastify";
-import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -45,7 +44,7 @@ const Register = () => {
       await updateProfile({ displayName: name });
       await sendEmailVerification(email);
       // send data to backend for jwt
-      const token = await axios.post("http://localhost:5000/generatetoken", {
+      const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
         email,
       });
       localStorage.setItem("access_token", token.data.jwToken);

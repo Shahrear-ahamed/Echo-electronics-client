@@ -10,29 +10,17 @@ const Social = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [signInWithGoogle, userGoogle, , error] = useSignInWithGoogle(auth);
-
   const from = location.state?.from?.pathname || "/";
+
   useEffect(() => {
     if (userGoogle) {
-      const setJwt = async () => {
-        const email = userGoogle.user.email;
-        // send data to backend for jwt
-        const token = await axios.post("http://localhost:5000/generatetoken", {
-          email,
-        });
-        localStorage.setItem("access_token", token.data.jwToken);
-      };
-      setJwt();
       navigate(from);
-      toast.success("Success fully Registered");
+      toast.success("Successfully Login");
     }
-  });
-
-  useEffect(() => {
     if (error) {
       toast.error(error.code);
     }
-  }, [error]);
+  }, [error, userGoogle]);
 
   // social login design
   return (

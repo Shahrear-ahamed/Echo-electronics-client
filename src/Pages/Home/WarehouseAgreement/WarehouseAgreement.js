@@ -5,7 +5,7 @@ import "./WarehouseAgreement.css";
 const WarehouseAgreement = () => {
   const handleAgreementClient = (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000/warehouseagreement";
+    const url = "https://echo-electronics.herokuapp.com/warehouseagreement";
     // information
     const companyName = e.target.name.value;
     const email = e.target.email.value;
@@ -57,6 +57,7 @@ const WarehouseAgreement = () => {
                 name="name"
                 id="name"
                 placeholder="Company Name"
+                required
               />
             </div>
             <div>
@@ -69,6 +70,7 @@ const WarehouseAgreement = () => {
                 name="email"
                 id="email"
                 placeholder="Contact Email"
+                required
               />
             </div>
             <div>
@@ -81,6 +83,7 @@ const WarehouseAgreement = () => {
                 name="number"
                 id="mobile"
                 placeholder="Contact Number"
+                required
               />
             </div>
             <div>
@@ -91,9 +94,9 @@ const WarehouseAgreement = () => {
                 className="w-full py-2 px-3 mt-1.5 rounded outline-none agreement-input"
                 name="agreementYear"
                 id="agreementYear"
-                defaultValue={"default"}
+                required
+                defaultValue={"8 Years"}
               >
-                <option value="default">Choose one ...</option>
                 <option value="5 Years">5 Years</option>
                 <option value="8 Years">8 Years</option>
                 <option value="10 Years">10 Years</option>
@@ -109,6 +112,7 @@ const WarehouseAgreement = () => {
               id="message"
               cols="80"
               rows="8"
+              required
             ></textarea>
           </div>
           <input

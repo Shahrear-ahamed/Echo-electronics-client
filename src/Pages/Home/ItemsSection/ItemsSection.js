@@ -7,7 +7,7 @@ const ItemsSection = () => {
   const navigate = useNavigate();
   const [homeItems, setHomeItems] = useState([]);
   useEffect(() => {
-    axios("http://localhost:5000/homeitems?limit=6").then((res) =>
+    axios("https://echo-electronics.herokuapp.com/homeitems?limit=6").then((res) =>
       setHomeItems(res.data)
     );
   }, []);
