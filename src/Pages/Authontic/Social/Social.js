@@ -13,14 +13,26 @@ const Social = () => {
   const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    if (userGoogle) {
-      navigate(from);
-      toast.success("Successfully Login");
-    }
     if (error) {
       toast.error(error.code);
     }
-  }, [error, userGoogle]);
+  }, [error]);
+
+  useEffect(() => {
+    if (userGoogle) {
+      const setJwt = async () => {
+        const email = userGoogle.user.email;
+        // send data to backend for jwt
+        const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
+          email,
+        });
+        localStorage.setItem("access_token", token.data.jwToken);
+        navigate(from);
+        toast.success("Successfully Login");
+      };
+      setJwt();
+    }
+  });
 
   // social login design
   return (
