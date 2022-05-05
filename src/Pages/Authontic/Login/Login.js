@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import {
-  useSignInWithEmailAndPassword
-} from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
@@ -17,7 +15,6 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
   useEffect(() => {
     if (userLogin) {
-      navigate(from);
       toast.success("Success fully login");
     }
   });
@@ -38,10 +35,14 @@ const Login = () => {
     // login user
     if (email && password) {
       await signInWithEmailAndPassword(email, password);
-      const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
-        email,
-      });
+      const token = await axios.post(
+        "https://echo-electronics.herokuapp.com/generatetoken",
+        {
+          email,
+        }
+      );
       localStorage.setItem("access_token", token.data.jwToken);
+      navigate(from);
     }
     // make jwt token for ueser
   };

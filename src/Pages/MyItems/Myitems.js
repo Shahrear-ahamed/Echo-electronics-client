@@ -10,7 +10,6 @@ import Loading from "../Shared/Loading/Loading";
 
 const Myitems = () => {
   const [user] = useAuthState(auth);
-  const { email } = user;
   const [myItmes, setMyItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
@@ -28,20 +27,20 @@ const Myitems = () => {
 
   // get page count from databse for pagination
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/userstoredata?email=${email}`;
+    const url = `https://echo-electronics.herokuapp.com/userstoredata?email=${user?.email}`;
     axios(url).then((res) => {
       setTotalProductCount(res.data.result);
     });
-  }, [email]);
+  }, [user?.email]);
 
   // find data from database
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/singleuser?email=${email}&&items=${ProductCount}&&page=${pageCount}`;
+    const url = `https://echo-electronics.herokuapp.com/singleuser?email=${user?.email}&&items=${ProductCount}&&page=${pageCount}`;
     const verifyToken = async () => {
       try {
         const token = await axios.get(url, {
           headers: {
-            authorization: `${email} ${localStorage.getItem("access_token")}`,
+            authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         });
         setLoading(false);
@@ -61,7 +60,7 @@ const Myitems = () => {
       }
     };
     verifyToken();
-  }, [ProductCount, pageCount, email, isDeleted]);
+  }, [ProductCount, pageCount, user, isDeleted]);
 
   // delete items
   const handleDelete = (id) => {
