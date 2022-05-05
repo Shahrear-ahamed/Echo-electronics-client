@@ -63,11 +63,30 @@ const ManageProduct = () => {
   ) : (
     <section>
       <div className="container mx-auto">
-        <table className="my-5 mx-auto w-full" style={{ maxWidth: "850px" }}>
+        <div className="my-2 md:my-5 text-center">
+          <h2
+            className="text-3xl md:text-4xl font-semibold py-2 md:py-4"
+            style={{ color: "#6ead4e" }}
+          >
+            Manage Inventory
+          </h2>
+          <div>
+            <button
+              onClick={() => navigate("/add-items")}
+              className="theme-color grid justify-center items-center mx-auto my-4 px-5 py-2 text-white rounded-md cursor-pointer"
+            >
+              Add new item
+            </button>
+          </div>
+        </div>
+        <table
+          className="my-5 mx-auto w-full"
+          style={{ maxWidth: "850px", width: "95%" }}
+        >
           <thead className="my-5">
             <tr
-              className=" py-5 bg-gray-300 border-b-2 border-b-black"
-              style={{ height: "50px" }}
+              className=" py-5 bg-gray-300 border-b-2 px-3 border-b-black"
+              style={{ height: "65px" }}
             >
               <th>Image</th>
               <th>Name</th>
@@ -119,14 +138,6 @@ const ManageProduct = () => {
             <option value="20">20</option>
             <option value="30">30</option>
           </select>
-        </div>
-        <div>
-          <button
-            onClick={() => navigate("/add-items")}
-            className="theme-color grid justify-center items-center mx-auto my-4 px-5 py-2 text-white rounded-md cursor-pointer"
-          >
-            Add new item
-          </button>
         </div>
       </div>
     </section>

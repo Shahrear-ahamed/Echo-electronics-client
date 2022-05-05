@@ -91,17 +91,28 @@ const Myitems = () => {
   ) : (
     <section>
       <div className="container mx-auto">
-        <table className="my-5 mx-auto w-full" style={{ maxWidth: "850px" }}>
+        <div className="my-2 md:my-5 text-center">
+          <h2
+            className="text-3xl md:text-4xl font-semibold py-2 md:py-4"
+            style={{ color: "#6ead4e" }}
+          >
+            My Items
+          </h2>
+        </div>
+        <table
+          className="my-5 mx-auto w-full"
+          style={{ maxWidth: "850px", width: "95%" }}
+        >
           <thead className="my-5">
             <tr
-              className=" py-5 bg-gray-300 border-b-2 border-b-black"
-              style={{ height: "50px" }}
+              className="py-5 bg-gray-300 border-b-2 px-3 border-b-black"
+              style={{ height: "65px" }}
             >
               <th>Image</th>
               <th>Name</th>
               <th>Price</th>
-              <th>stock</th>
-              <th>stock</th>
+              <th>Stock</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody className="text-center">
