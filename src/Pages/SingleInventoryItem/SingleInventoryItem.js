@@ -26,6 +26,11 @@ const SingleInventoryItem = () => {
 
   // reduce quantity by clicking
   const handleDeliver = () => {
+    if (itemQuantity <= 0) {
+      return toast.warning(
+        "Product are out of stock, Please Restock this item"
+      );
+    }
     const reduceQuantity = itemQuantity - 1;
     const soldItems = totalSold + 1;
     setItemQuantity(reduceQuantity);
@@ -68,7 +73,9 @@ const SingleInventoryItem = () => {
     <>
       <section>
         <div className="container mx-auto">
-          <h2 className="text-3xl my-5 py-2 px-5 text-center font-semibold">{productName}</h2>
+          <h2 className="text-3xl my-5 py-2 px-5 text-center font-semibold">
+            {productName}
+          </h2>
           <div className="justify-center grid grid-cols-1 md:grid-cols-2">
             <div className="md:mt-10">
               <img
@@ -77,9 +84,6 @@ const SingleInventoryItem = () => {
                 className="mx-auto"
                 style={{ width: "450px" }}
               />
-              <p className="text-center">
-                <small>{productName}</small>
-              </p>
             </div>
             <div className="w-11/12 mx-auto">
               <h3 className="text-center my-5 text-3xl font-semibold">
@@ -90,11 +94,21 @@ const SingleInventoryItem = () => {
                   Product ID: {_id}
                 </p>
                 <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
+                  Product name: {productName}
+                </p>
+                <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
                   Price: ${price}
                 </p>
                 <div className="py-2 px-5 border-b-2 border-black border-opacity-50">
                   <p className="flex justify-between items-center">
-                    <span>Quantity: {itemQuantity}</span>
+                    <span>
+                      Quantity:{" "}
+                      {itemQuantity <= 0 ? (
+                        <span className="text-red-600 font-semibold">Sold</span>
+                      ) : (
+                        itemQuantity
+                      )}
+                    </span>
                     <span>Sold: {totalSold}</span>
                     <button
                       onClick={handleDeliver}
