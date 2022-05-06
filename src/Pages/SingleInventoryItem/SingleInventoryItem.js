@@ -104,7 +104,7 @@ const SingleInventoryItem = () => {
                     <span>
                       Quantity:{" "}
                       {itemQuantity <= 0 ? (
-                        <span className="text-red-600 font-semibold">Sold</span>
+                        <span className="text-red-600 font-semibold">Out of stock</span>
                       ) : (
                         itemQuantity
                       )}
