@@ -1,47 +1,35 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import auth from "../../../firebase.init";
 import Social from "../Social/Social";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [signInWithEmailAndPassword, userLogin, , errorLogin] =
-    useSignInWithEmailAndPassword(auth);
-
   const from = location.state?.from?.pathname || "/";
-  useEffect(() => {
-    if (userLogin) {
-      navigate(from);
-      toast.success("Success fully login");
-    }
-  });
-
-  useEffect(() => {
-    if (errorLogin) {
-      toast.error(errorLogin.code);
-    }
-  }, [errorLogin]);
 
   // handle user login
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // get uesr data
+    // get user data
     const email = e.target.email.value;
     const password = e.target.password.value;
+
+    const user = { email, password };
     // login user
     if (email && password) {
-      await signInWithEmailAndPassword(email, password);
-      const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
-        email,
-      });
-      localStorage.setItem("access_token", token.data.jwToken);
+      const response = await axios.post("/user/login", user);
+      const resData = { ...response.data, statusCode: response.status };
+
+      if (resData.statusCode === 200) {
+        navigate(from);
+        toast.success(resData.message);
+      }
+
+      localStorage.setItem("access_token", resData.token);
     }
-    // make jwt token for ueser
+    // make jwt token for user
   };
 
   // login page design are here
@@ -73,7 +61,7 @@ const Login = () => {
         </form>
         <div>
           <p className="pt-3">
-            Forget Passowrd?{" "}
+            Forget Password?{" "}
             <Link className="link" to="/password-reset">
               Click here
             </Link>
