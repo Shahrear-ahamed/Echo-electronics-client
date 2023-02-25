@@ -1,6 +1,5 @@
 import "./Header.css";
 import { useState } from "react";
-import useUser from "../../../hook/useUser";
 import { removeToken } from "../../../utils/token";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoDark from "../../../images/logo/logo-dark.png";
@@ -8,9 +7,9 @@ import hamburgerMenu from "../../../images/bars-solid.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = () => {
+const Header = ({ authUser }) => {
   const navigate = useNavigate();
-  const { isLoggedIn, user } = useUser();
+  const { isLoggedIn, user } = authUser;
   const [hamburger, setHamburger] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const logOut = () => {

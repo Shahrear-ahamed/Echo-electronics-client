@@ -1,16 +1,15 @@
 import axios from "axios";
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import swal from "sweetalert";
 import auth from "../../firebase.init";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
 
-const Myitems = () => {
-  const [user] = useAuthState(auth);
-  const [myItmes, setMyItems] = useState([]);
+const Myitems = ({ authUser }) => {
+  const { user, isLoading } = authUser;
+  const [myItems, setMyItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [errorToast, setErrorToast] = useState("");
@@ -25,10 +24,9 @@ const Myitems = () => {
     }
   }, [errorToast]);
 
-  // get page count from databse for pagination
+  // get page count from database for pagination
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/userstoredata?email=${user?.email}`;
-    axios(url).then((res) => {
+    axios(`/inventory/myProduct?email=${user?.email}`).then((res) => {
       setTotalProductCount(res.data.result);
     });
   }, [user?.email]);
@@ -85,7 +83,7 @@ const Myitems = () => {
     });
   };
 
-  return loading ? (
+  return isLoading ? (
     <Loading />
   ) : (
     <section>
@@ -93,20 +91,17 @@ const Myitems = () => {
         <div className="my-2 md:my-5 text-center">
           <h2
             className="text-3xl md:text-4xl font-semibold py-2 md:py-4"
-            style={{ color: "#6ead4e" }}
-          >
+            style={{ color: "#6ead4e" }}>
             My Items
           </h2>
         </div>
         <table
           className="my-5 mx-auto w-full"
-          style={{ maxWidth: "850px", width: "95%" }}
-        >
+          style={{ maxWidth: "850px", width: "95%" }}>
           <thead className="my-5">
             <tr
               className="py-5 bg-gray-300 border-b-2 px-3 border-b-black"
-              style={{ height: "65px" }}
-            >
+              style={{ height: "65px" }}>
               <th>Image</th>
               <th>Name</th>
               <th>Price</th>
@@ -115,7 +110,7 @@ const Myitems = () => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {myItmes.map((product) => (
+            {myItems.map((product) => (
               <ManageSingleItem
                 key={product._id}
                 handleDelete={handleDelete}
@@ -126,8 +121,7 @@ const Myitems = () => {
         </table>
         <div
           className="flex justify-between w-full mx-auto my-8"
-          style={{ maxWidth: "400px" }}
-        >
+          style={{ maxWidth: "400px" }}>
           <div>
             {[...Array(totalPages)].map((page, index) => (
               <button
@@ -137,8 +131,7 @@ const Myitems = () => {
                   setPageCount(index);
                   setLoading(true);
                 }}
-                disabled={pageCount === index}
-              >
+                disabled={pageCount === index}>
                 {index + 1}
               </button>
             ))}
@@ -151,8 +144,7 @@ const Myitems = () => {
             name="productCount"
             id="productCount"
             defaultValue={ProductCount}
-            className="border-2 py-1 px-2"
-          >
+            className="border-2 py-1 px-2">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>

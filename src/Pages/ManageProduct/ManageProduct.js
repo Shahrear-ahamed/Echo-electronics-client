@@ -6,8 +6,9 @@ import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
 import "./ManageProduct.css";
 
-const ManageProduct = () => {
+const ManageProduct = ({ authUser }) => {
   const navigate = useNavigate();
+  const { isLoading } = authUser;
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -58,7 +59,7 @@ const ManageProduct = () => {
     });
   };
 
-  return loading ? (
+  return isLoading ? (
     <Loading />
   ) : (
     <section>
@@ -66,28 +67,24 @@ const ManageProduct = () => {
         <div className="my-2 md:my-5 text-center">
           <h2
             className="text-3xl md:text-4xl font-semibold py-2 md:py-4"
-            style={{ color: "#6ead4e" }}
-          >
+            style={{ color: "#6ead4e" }}>
             Manage Inventory
           </h2>
           <div>
             <button
               onClick={() => navigate("/add-items")}
-              className="theme-color grid justify-center items-center mx-auto my-4 px-5 py-2 text-white rounded-md cursor-pointer"
-            >
+              className="theme-color grid justify-center items-center mx-auto my-4 px-5 py-2 text-white rounded-md cursor-pointer">
               Add new item
             </button>
           </div>
         </div>
         <table
           className="my-5 mx-auto w-full"
-          style={{ maxWidth: "850px", width: "95%" }}
-        >
+          style={{ maxWidth: "850px", width: "95%" }}>
           <thead className="my-5">
             <tr
               className=" py-5 bg-gray-300 border-b-2 px-3 border-b-black"
-              style={{ height: "65px" }}
-            >
+              style={{ height: "65px" }}>
               <th>Image</th>
               <th>Name</th>
               <th>Price</th>
@@ -107,8 +104,7 @@ const ManageProduct = () => {
         </table>
         <div
           className="flex justify-between w-full mx-auto my-8"
-          style={{ maxWidth: "400px" }}
-        >
+          style={{ maxWidth: "400px" }}>
           <div>
             {[...Array(totalPages)].map((page, index) => (
               <button
@@ -118,8 +114,7 @@ const ManageProduct = () => {
                   setPageCount(index);
                   setLoading(true);
                 }}
-                disabled={pageCount === index}
-              >
+                disabled={pageCount === index}>
                 {index + 1}
               </button>
             ))}
@@ -132,8 +127,7 @@ const ManageProduct = () => {
             defaultValue={ProductCount}
             name="productCount"
             id="productCount"
-            className="border-2 py-1 px-2"
-          >
+            className="border-2 py-1 px-2">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>

@@ -1,18 +1,15 @@
+import "./AddItems.css";
 import axios from "axios";
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
-import auth from "../../firebase.init";
-import "./AddItems.css";
 
-const AddItems = () => {
-  const [user] = useAuthState(auth);
-  const { displayName, email } = user;
+const AddItems = ({ authUser }) => {
+  const { user } = authUser;
+  const { name, email } = user;
 
   // onsubmit section are here
   const handleAddItems = (e) => {
     e.preventDefault();
-    const url = `https://echo-electronics.herokuapp.com/inventory?email=${email}`;
 
     // get property value
     const productName = e.target.productName.value;
@@ -22,7 +19,7 @@ const AddItems = () => {
     const desc = e.target.description.value;
     const sold = 0;
     const itemObj = {
-      supplier: displayName,
+      supplier: name,
       email,
       image,
       productName,
@@ -33,7 +30,7 @@ const AddItems = () => {
     };
 
     if (productName && image && price && quantity && desc) {
-      axios.post(url, itemObj).then((response) => {
+      axios.post("/inventory/addProduct", itemObj).then((response) => {
         if (response.data.acknowledged) {
           toast.success("Product Add successfully");
           e.target.reset();
@@ -52,8 +49,7 @@ const AddItems = () => {
         <div className="bar mb-4"></div>
         <form
           onSubmit={handleAddItems}
-          className="add-items mx-auto mt-4 text-black"
-        >
+          className="add-items mx-auto mt-4 text-black">
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-7">
             {" "}
             <div>
@@ -65,7 +61,7 @@ const AddItems = () => {
                 type="text"
                 name="name"
                 id="name"
-                value={displayName}
+                value={name}
                 readOnly
               />
             </div>
@@ -139,8 +135,7 @@ const AddItems = () => {
               name="description"
               id="description"
               cols="80"
-              rows="8"
-            ></textarea>
+              rows="8"></textarea>
           </div>
           <input
             className="theme-color mx-auto mt-4 px-5 py-2 text-white rounded-md cursor-pointer"
