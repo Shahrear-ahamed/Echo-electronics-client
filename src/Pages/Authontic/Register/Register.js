@@ -3,39 +3,46 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Social from "../Social/Social";
 import "./Register.css";
+import { setToken } from "../../../utils/token";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
 
   // create user are here
   const handleRegister = async (e) => {
     e.preventDefault();
+    let response;
 
     //  get user input data
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
-
     const userData = { name, email, password, confirmPassword };
 
     // confirm password and password are same or not
-    if (password === confirmPassword) {
-      const response = await axios.post("/user/register", userData);
-
-      const resData = { ...response.data, statusCode: response.status };
-
-      if (resData.statusCode === 200) {
-        toast.success(resData.message);
-        navigate(from);
-      }
-      localStorage.setItem("access_token", resData.token);
-    } else {
-      toast.error("Password and confirm password are not match");
+    if (password !== confirmPassword) {
+      return toast.error("Password and confirm password are not match");
     }
+
+    try {
+      response = await axios.post("/user/register", userData);
+    } catch (err) {
+      response = err.response;
+    }
+
+    const resData = { ...response.data, statusCode: response.status };
+
+    if (resData.statusCode !== 200) {
+      return toast.error(resData.message);
+    }
+
+    // after successful register redirect to login page
+    navigate(from);
+    setToken(resData.token);
+    toast.success(resData.message);
   };
 
   // register page design are here

@@ -2,6 +2,7 @@ import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Social from "../Social/Social";
+import { setToken } from "../../../utils/token";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,25 +12,36 @@ const Login = () => {
   // handle user login
   const handleLogin = async (e) => {
     e.preventDefault();
+    let response;
 
     // get user data
     const email = e.target.email.value;
     const password = e.target.password.value;
-
     const user = { email, password };
+
     // login user
-    if (email && password) {
-      const response = await axios.post("/user/login", user);
-      const resData = { ...response.data, statusCode: response.status };
-
-      if (resData.statusCode === 200) {
-        navigate(from);
-        toast.success(resData.message);
-      }
-
-      localStorage.setItem("access_token", resData.token);
+    if (!email) {
+      return toast.warn("Email is required");
+    } else if (!password) {
+      return toast.warn("Password is required");
     }
-    // make jwt token for user
+
+    try {
+      response = await axios.post("/user/login", user);
+    } catch (err) {
+      response = err.response;
+    }
+
+    const resData = { ...response.data, statusCode: response.status };
+
+    if (resData.statusCode !== 200) {
+      return toast.error(resData.message);
+    }
+
+    // if user login successfully then redirect to home page
+    navigate(from);
+    setToken(resData.token);
+    toast.success(resData.message);
   };
 
   // login page design are here
