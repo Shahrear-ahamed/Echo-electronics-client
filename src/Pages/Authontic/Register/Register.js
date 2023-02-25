@@ -1,32 +1,14 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import {
-    useCreateUserWithEmailAndPassword,
-    useSendEmailVerification,
-    useUpdateProfile
-} from "react-firebase-hooks/auth";
+import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import auth from "../../../firebase.init";
 import Social from "../Social/Social";
 import "./Register.css";
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [createUserWithEmailAndPassword, userSignIn] =
-    useCreateUserWithEmailAndPassword(auth);
-  const [updateProfile] = useUpdateProfile(auth);
-  const [sendEmailVerification] = useSendEmailVerification(auth);
 
   const from = location.state?.from?.pathname || "/";
-  useEffect(() => {
-    if (userSignIn) {
-      navigate(from);
-      toast.success("Success fully Registered");
-      toast.success("Verify mail was send pleae verify!");
-    }
-  });
 
   // create user are here
   const handleRegister = async (e) => {
@@ -38,16 +20,19 @@ const Register = () => {
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
 
+    const userData = { name, email, password, confirmPassword };
+
     // confirm password and password are same or not
     if (password === confirmPassword) {
-      await createUserWithEmailAndPassword(email, password);
-      await updateProfile({ displayName: name });
-      await sendEmailVerification(email);
-      // send data to backend for jwt
-      const token = await axios.post("https://echo-electronics.herokuapp.com/generatetoken", {
-        email,
-      });
-      localStorage.setItem("access_token", token.data.jwToken);
+      const response = await axios.post("/user/register", userData);
+
+      const resData = { ...response.data, statusCode: response.status };
+
+      if (resData.statusCode === 200) {
+        toast.success(resData.message);
+        navigate(from);
+      }
+      localStorage.setItem("access_token", resData.token);
     } else {
       toast.error("Password and confirm password are not match");
     }
