@@ -1,17 +1,21 @@
-import { signOut } from "firebase/auth";
-import React, { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { NavLink, useNavigate } from "react-router-dom";
-import auth from "../../../firebase.init";
-import hamburgerMenu from "../../../images/bars-solid.svg";
-import logoDark from "../../../images/logo/logo-dark.png";
 import "./Header.css";
+import { useState } from "react";
+import useUser from "../../../hook/useUser";
+import { removeToken } from "../../../utils/token";
+import { NavLink, useNavigate } from "react-router-dom";
+import logoDark from "../../../images/logo/logo-dark.png";
+import hamburgerMenu from "../../../images/bars-solid.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [user] = useAuthState(auth);
-
-  const [hamburger, setHamburget] = useState(false);
+  const { isLoggedIn, user } = useUser();
+  const [hamburger, setHamburger] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
+  const logOut = () => {
+    removeToken();
+  };
 
   return (
     <header className="shadow-md z-50">
@@ -27,9 +31,8 @@ const Header = () => {
           </button>
 
           <button
-            onClick={() => setHamburget(!hamburger)}
-            className="block md:hidden "
-          >
+            onClick={() => setHamburger(!hamburger)}
+            className="block md:hidden ">
             <img
               src={hamburgerMenu}
               alt="hamburger item"
@@ -42,31 +45,27 @@ const Header = () => {
             hamburger
               ? "block md:w-3/5 md:flex items-center justify-between"
               : "hidden md:w-3/5 md:flex items-center justify-between"
-          }
-        >
+          }>
           <div
-            onClick={() => setHamburget(!hamburger)}
-            className="col-span-2 my-5 md:my-0"
-          >
+            onClick={() => setHamburger(!hamburger)}
+            className="col-span-2 my-5 md:my-0">
             {" "}
             <nav className="flex flex-col items-start md:flex-row ">
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
                 }
-                to="/"
-              >
+                to="/">
                 Home
               </NavLink>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "mx-2 text-color" : "mx-2 text-black header-link"
                 }
-                to="/manage-inventory"
-              >
+                to="/manage-inventory">
                 Manage Inventory
               </NavLink>
-              {user ? (
+              {isLoggedIn ? (
                 <>
                   <NavLink
                     className={({ isActive }) =>
@@ -74,8 +73,7 @@ const Header = () => {
                         ? "mx-2 text-color"
                         : "mx-2 text-black header-link"
                     }
-                    to="/add-items"
-                  >
+                    to="/add-items">
                     Add Items
                   </NavLink>
                   <NavLink
@@ -84,8 +82,7 @@ const Header = () => {
                         ? "mx-2 text-color"
                         : "mx-2 text-black header-link"
                     }
-                    to="/my-items"
-                  >
+                    to="/my-items">
                     My Items
                   </NavLink>
                 </>
@@ -97,8 +94,7 @@ const Header = () => {
                         ? "mx-2 text-color"
                         : "mx-2 text-black header-link"
                     }
-                    to="/blog"
-                  >
+                    to="/blog">
                     Blog
                   </NavLink>
                 </>
@@ -108,26 +104,50 @@ const Header = () => {
 
           {/* user interaction are here login or logout */}
 
-          <div className="button-grp">
-            {user ? (
-              <button
-                onClick={() => signOut(auth)}
-                className=" px-5 py-2 border-2 rounded-lg border-color"
-              >
-                Log Out
-              </button>
+          <div className="button-grp relative">
+            {isLoggedIn ? (
+              <div className="relative">
+                <div
+                  className="flex justify-between items-center gap-3 cursor-pointer"
+                  onClick={() => setProfileDropdown(!profileDropdown)}>
+                  {user?.photo ? (
+                    <img
+                      src={user?.photo}
+                      alt={user?.name}
+                      className="w-7 h-7 rounded-full overflow-hidden"
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} className="w-7 h-7" />
+                  )}
+
+                  <p className="text-sm">{user?.name}</p>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={`w-4 h-4 duration-300 ${
+                      profileDropdown ? "rotate-0" : "rotate-180"
+                    }`}
+                  />
+                </div>
+
+                {/* // user profile */}
+                <div className="hidden">
+                  <button
+                    onClick={logOut}
+                    className=" px-5 py-2 border-2 rounded-lg border-color">
+                    Log Out
+                  </button>
+                </div>
+              </div>
             ) : (
               <>
                 <button
                   onClick={() => navigate("/register")}
-                  className=" px-5 py-2 border-2 rounded-lg border-color"
-                >
+                  className=" px-5 py-2 border-2 rounded-lg border-color">
                   Register
                 </button>
                 <button
                   onClick={() => navigate("/login")}
-                  className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
-                >
+                  className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color">
                   Login
                 </button>
               </>

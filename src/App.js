@@ -6,6 +6,7 @@ import AddItems from "./Pages/AddItems/AddItems";
 import Login from "./Pages/Authontic/Login/Login";
 import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
 import PrivetRoute from "./Pages/Authontic/PrivetRoute/PrivetRoute";
+import ProtectRoute from "./Pages/Authontic/PrivetRoute/ProtectRoute";
 import Register from "./Pages/Authontic/Register/Register";
 import Blog from "./Pages/Blog/Blog";
 import Home from "./Pages/Home/Home/Home";
@@ -56,8 +57,22 @@ function App() {
         />
         <Route path="/blog" element={<Blog />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/password-reset" element={<PasswordReset />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectRoute>
+              <Login />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/password-reset"
+          element={
+            <ProtectRoute>
+              <PasswordReset />
+            </ProtectRoute>
+          }
+        />
         <Route path="*" element={<PageError />} />
       </Routes>
       <Footer />
