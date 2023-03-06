@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const SingleItem = ({ product }) => {
+const SingleItem = ({ singleProduct }) => {
   const navigate = useNavigate();
-  const { _id, productName, price, image, quantity, supplier, desc } = product;
+  const { description, image, price, product, quantity, supplierMail, _id } =
+    singleProduct;
+
   return (
     <div className="shadow-lg p-5 rounded-lg" style={{ maxWidth: "350px" }}>
-      <img src={image} alt={productName} className="w-3/5 mx-auto" />
-      <h2 className="text-xl font-medium">{productName}</h2>
+      <img src={image} alt={product} className="w-3/5 mx-auto" />
+      <h2 className="text-xl font-medium">{product}</h2>
       <p className="my-2 flex justify-between">
         <span>Price: ${price}</span>
         <span>
@@ -17,12 +19,11 @@ const SingleItem = ({ product }) => {
           {quantity}
         </span>
       </p>
-      <h3 className="mb-3">Supplier: {supplier}</h3>
-      <p>{desc.slice(0,100)}</p>
+      <h3 className="mb-3">Supplier: {supplierMail}</h3>
+      <p>{description?.slice(0, 100)}</p>
       <button
         onClick={() => navigate(`/inventory/${_id}`)}
-        className="mt-4 px-5 py-2 rounded-md theme-color text-white"
-      >
+        className="mt-4 px-5 py-2 rounded-md theme-color text-white">
         Stock Update
       </button>
     </div>
