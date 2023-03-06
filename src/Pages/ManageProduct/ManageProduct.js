@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
@@ -14,31 +14,23 @@ const ManageProduct = ({ authUser }) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [ProductCount, setProductCount] = useState(10);
   const [manageProducts, setManageProducts] = useState([]);
-  const [totalProductCount, setTotalProductCount] = useState(0);
-  const totalPages = Math.ceil(totalProductCount / ProductCount);
-
-  // get page count from databse for pagination
-  useEffect(() => {
-    const url = "https://echo-electronics.herokuapp.com/inventorycount";
-    axios(url).then((res) => setTotalProductCount(res.data.totalProduct));
-  }, []);
+  const [totalPages, setTotalPages] = useState(0);
 
   // load data from server
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/inventory?items=${ProductCount}&&page=${pageCount}`;
+    const url = `/inventory/products?page=${pageCount}&limit=${ProductCount}`;
+
+    // data call
     axios(url).then((response) => {
-      if (response.data.length === 0) {
-        setPageCount(pageCount - 1);
-      } else {
-        setLoading(false);
-        setManageProducts(response.data);
-      }
+      setLoading(false);
+      setTotalPages(response?.data?.pages);
+      setManageProducts(response.data?.products);
     });
   }, [pageCount, ProductCount, isDeleted]);
 
   // delete items
   const handleDelete = (id) => {
-    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
+    const url = `/inventory/products/${id}`;
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",
@@ -59,7 +51,7 @@ const ManageProduct = ({ authUser }) => {
     });
   };
 
-  return isLoading ? (
+  return isLoading || loading ? (
     <Loading />
   ) : (
     <section>
@@ -93,10 +85,10 @@ const ManageProduct = ({ authUser }) => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {manageProducts.map((product) => (
+            {manageProducts?.map((product) => (
               <ManageSingleItem
                 key={product._id}
-                product={product}
+                singleProduct={product}
                 handleDelete={handleDelete}
               />
             ))}
