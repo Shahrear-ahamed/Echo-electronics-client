@@ -1,41 +1,50 @@
 import "./AddItems.css";
-import axios from "axios";
+import axios from "../../utils/axios";
 import React from "react";
 import { toast } from "react-toastify";
+import { getToken } from "../../utils/token";
 
 const AddItems = ({ authUser }) => {
   const { user } = authUser;
-  const { name, email } = user;
+  const { name, email, _id } = user;
+  const authToken = getToken();
 
   // onsubmit section are here
   const handleAddItems = (e) => {
     e.preventDefault();
 
     // get property value
-    const productName = e.target.productName.value;
+    const product = e.target.productName.value;
     const image = e.target.imgUrl.value;
     const price = e.target.price.value;
     const quantity = e.target.quantity.value;
-    const desc = e.target.description.value;
+    const description = e.target.description.value;
     const sold = 0;
     const itemObj = {
-      supplier: name,
-      email,
-      image,
-      productName,
-      price,
-      quantity,
-      desc,
       sold,
+      image,
+      price,
+      product,
+      quantity,
+      owner: _id,
+      description,
+      supplierMail: email,
     };
 
-    if (productName && image && price && quantity && desc) {
-      axios.post("/inventory/addProduct", itemObj).then((response) => {
-        if (response.data.acknowledged) {
-          toast.success("Product Add successfully");
-          e.target.reset();
-        }
-      });
+    if (product && image && price && quantity && description) {
+      axios
+        .post("/inventory/products", itemObj, {
+          headers: {
+            Authorization: authToken,
+          },
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            toast.success("Product Add successfully");
+            e.target.reset();
+          }
+        })
+        .catch((err) => console.log(err.response));
     }
   };
 

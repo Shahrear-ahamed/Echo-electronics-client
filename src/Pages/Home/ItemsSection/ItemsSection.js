@@ -6,12 +6,12 @@ import SingleItem from "../SingleItem/SingleItem";
 const ItemsSection = () => {
   const navigate = useNavigate();
   const [homeItems, setHomeItems] = useState([]);
-  const extended = "limit=6&sort=-createdAt,quantity";
+  const extended = "limit=6";
 
   // get all products
   useEffect(() => {
     axios(`/inventory/products?${extended}`).then((res) =>
-      setHomeItems(res.data?.result)
+      setHomeItems(res.data?.products)
     );
   }, []);
 
