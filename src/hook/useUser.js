@@ -10,23 +10,27 @@ const useUser = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (!authToken) return false;
-
-    axios("/user", {
-      headers: {
-        Authorization: authToken,
-      },
-    })
-      .then((response) => {
-        setIsLoggedIn(true);
-        setIsLoading(false);
-        setUser(response.data.user);
+    // check authToken are available or not
+    if (authToken) {
+      axios("/user", {
+        headers: {
+          Authorization: authToken,
+        },
       })
-      .catch((err) => {
-        setIsLoading(false);
-        setIsLoggedIn(false);
-        setError(err.response);
-      });
+        .then((response) => {
+          setIsLoggedIn(true);
+          setIsLoading(false);
+          setUser(response.data.user);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          setIsLoggedIn(false);
+          setError(err.response);
+        });
+    } else {
+      setIsLoading(false);
+      setIsLoggedIn(false);
+    }
   }, [authToken]);
 
   return { isLoggedIn, user, error, isLoading };

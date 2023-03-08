@@ -1,68 +1,94 @@
-import axios from "axios";
+import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "../Shared/Loading/Loading";
+import { getToken } from "../../utils/token";
 
 const SingleInventoryItem = () => {
-  const navigate = useNavigate();
+  const token = getToken();
   const { id } = useParams();
-  const [singleInventoryItem, setSingleInventoryItem] = useState({});
-  const { _id, image, productName, desc, price, supplier } =
-    singleInventoryItem;
-  const [itemQuantity, setItemQuantity] = useState(0);
-  const [totalSold, setTotalSold] = useState(0);
+  const navigate = useNavigate();
+  const url = `/inventory/products/${id}`;
   const [loading, setLoading] = useState(true);
+  const [loadData, setLoadData] = useState(false);
+  const [singleInventoryItem, setSingleInventoryItem] = useState({});
+  const {
+    _id,
+    sold,
+    owner,
+    price,
+    image,
+    inStock,
+    product,
+    quantity,
+    description,
+    supplierMail,
+  } = singleInventoryItem;
 
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
     axios(url).then((response) => {
-      setSingleInventoryItem(response.data);
-      setItemQuantity(response.data.quantity);
-      setTotalSold(response.data.sold);
+      setSingleInventoryItem(response.data?.result[0]);
       setLoading(false);
     });
-  }, [id]);
+  }, [url, loadData]);
 
   // reduce quantity by clicking
   const handleDeliver = () => {
-    if (itemQuantity <= 0) {
+    if (quantity <= 0) {
       return toast.warning(
         "Product are out of stock, Please Restock this item"
       );
     }
-    const reduceQuantity = itemQuantity - 1;
-    const soldItems = totalSold + 1;
-    setItemQuantity(reduceQuantity);
-    setTotalSold(soldItems);
-    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
+
+    const newQuantity = quantity - 1;
+    const newSold = sold + 1;
+
     axios
-      .put(url, {
-        quantity: reduceQuantity,
-        sold: soldItems,
-      })
+      .patch(
+        url,
+        {
+          quantity: newQuantity,
+          sold: newSold,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      )
       .then((response) => {
-        if (response.data.matchedCount > 0) {
+        if (response.data?.result?.matchedCount === 1) {
           toast.success("Delivered Successfully");
+          setLoadData(!loadData);
         }
       });
   };
-  // update restock
 
+  // update restock
   const handleRestock = (e) => {
     e.preventDefault();
-    const reStock = parseInt(e.target.reStock.value);
-    const totalStock = reStock + parseInt(itemQuantity);
-    setItemQuantity(totalStock);
-    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
+
+    const reStock = parseInt(e.target.reStock.value) + quantity;
+
     axios
-      .put(url, {
-        quantity: totalStock,
-      })
+      .patch(
+        url,
+        {
+          quantity: reStock,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      )
       .then((response) => {
-        if (response.data.matchedCount > 0) {
+        console.log(response.data);
+        if (response.data?.result.matchedCount > 0) {
           toast.success("Stock update Successfully");
           e.target.reset();
+          setLoadData(!loadData);
         }
       });
   };
@@ -74,13 +100,13 @@ const SingleInventoryItem = () => {
       <section>
         <div className="container mx-auto">
           <h2 className="text-3xl my-5 py-2 px-5 text-center font-semibold">
-            {productName}
+            {product}
           </h2>
           <div className="justify-center grid grid-cols-1 md:grid-cols-2">
             <div className="md:mt-10">
               <img
                 src={image}
-                alt={productName}
+                alt={product}
                 className="mx-auto"
                 style={{ width: "450px" }}
               />
@@ -94,7 +120,7 @@ const SingleInventoryItem = () => {
                   Product ID: {_id}
                 </p>
                 <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
-                  Product name: {productName}
+                  Product name: {product}
                 </p>
                 <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
                   Price: ${price}
@@ -103,26 +129,27 @@ const SingleInventoryItem = () => {
                   <p className="flex justify-between items-center">
                     <span>
                       Quantity:{" "}
-                      {itemQuantity <= 0 ? (
-                        <span className="text-red-600 font-semibold">Out of stock</span>
+                      {inStock ? (
+                        quantity
                       ) : (
-                        itemQuantity
+                        <span className="text-red-600 font-semibold">
+                          Out of stock
+                        </span>
                       )}
                     </span>
-                    <span>Sold: {totalSold}</span>
+                    <span>Sold: {sold}</span>
                     <button
                       onClick={handleDeliver}
-                      className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color"
-                    >
+                      className="px-5 py-2 ml-6 rounded-lg border-2 text-white theme-color border-color">
                       Deliver
                     </button>
                   </p>
                 </div>
                 <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
-                  Supplier: {supplier}
+                  Supplier: {supplierMail}
                 </p>
                 <p className="py-2 px-5 border-b-2 border-black border-opacity-50">
-                  {desc.slice(0, 200)}
+                  {description.slice(0, 200)}
                 </p>
                 <div className="text-center my-3">
                   <h3 className="my-2 text-2xl font-semibold">Update Stock</h3>
@@ -148,8 +175,7 @@ const SingleInventoryItem = () => {
           <div className="flex justify-center my-5">
             <button
               onClick={() => navigate("/manage-inventory")}
-              className="px-5 py-2 rounded-lg border-2 text-white theme-color border-color"
-            >
+              className="px-5 py-2 rounded-lg border-2 text-white theme-color border-color">
               Manage Inventories
             </button>
           </div>

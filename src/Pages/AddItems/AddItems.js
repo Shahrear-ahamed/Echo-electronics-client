@@ -45,6 +45,8 @@ const AddItems = ({ authUser }) => {
           }
         })
         .catch((err) => console.log(err.response));
+    } else {
+      toast.error("Please fill all the fields");
     }
   };
 

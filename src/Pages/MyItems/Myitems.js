@@ -1,68 +1,36 @@
-import axios from "axios";
-import { signOut } from "firebase/auth";
+import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import swal from "sweetalert";
-import auth from "../../firebase.init";
 import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
+import { getToken } from "../../utils/token";
 
 const Myitems = ({ authUser }) => {
   const { user, isLoading } = authUser;
+  const token = getToken();
   const [myItems, setMyItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
-  const [errorToast, setErrorToast] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
   const [ProductCount, setProductCount] = useState(10);
-  const [totalProductCount, setTotalProductCount] = useState(0);
-  const totalPages = Math.ceil(totalProductCount / ProductCount);
-
-  useEffect(() => {
-    if (errorToast) {
-      toast.warning(errorToast);
-    }
-  }, [errorToast]);
-
-  // get page count from database for pagination
-  useEffect(() => {
-    axios(`/inventory/myProduct?email=${user?.email}`).then((res) => {
-      setTotalProductCount(res.data.result);
-    });
-  }, [user?.email]);
+  const [totalPages, setTotalPages] = useState(0);
 
   // find data from database
   useEffect(() => {
-    const url = `https://echo-electronics.herokuapp.com/singleuser?email=${user?.email}&&items=${ProductCount}&&page=${pageCount}`;
-    const verifyToken = async () => {
-      try {
-        const token = await axios.get(url, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        });
+    const url = `inventory/products?email=${user?.email}&items=${ProductCount}&page=${pageCount}`;
+
+    axios(url).then((response) => {
+      if (response.status === 200) {
         setLoading(false);
-        if (token.data.length === 0) {
-          setPageCount(pageCount - 1);
-          setMyItems(token.data);
-          setLoading(false);
-        } else {
-          setMyItems(token.data);
-          setLoading(false);
-        }
-      } catch (error) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          signOut(auth);
-          setErrorToast(error.response.data.message);
-        }
+        setMyItems(response?.data.products);
+        setTotalPages(response?.data.pages);
       }
-    };
-    verifyToken();
+    });
   }, [ProductCount, pageCount, user, isDeleted]);
 
   // delete items
   const handleDelete = (id) => {
-    const url = `https://echo-electronics.herokuapp.com/inventory/${id}`;
+    const url = `inventory/products/${id}`;
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this product!",
@@ -71,19 +39,25 @@ const Myitems = ({ authUser }) => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios.delete(url).then((response) => {
-          if (response.data.deletedCount > 0) {
-            setIsDeleted(!isDeleted);
-            swal("Poof! Your imaginary file has been deleted!", {
-              icon: "success",
-            });
-          }
-        });
+        axios
+          .delete(url, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            if (response.data?.result?.deletedCount === 1) {
+              setIsDeleted(!isDeleted);
+              swal("Poof! Your imaginary file has been deleted!", {
+                icon: "success",
+              });
+            }
+          });
       }
     });
   };
 
-  return isLoading ? (
+  return isLoading || loading ? (
     <Loading />
   ) : (
     <section>
@@ -114,7 +88,7 @@ const Myitems = ({ authUser }) => {
               <ManageSingleItem
                 key={product._id}
                 handleDelete={handleDelete}
-                product={product}
+                singleProduct={product}
               />
             ))}
           </tbody>
