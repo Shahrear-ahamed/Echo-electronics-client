@@ -11,9 +11,16 @@ const Header = ({ authUser }) => {
   const navigate = useNavigate();
   const { isLoggedIn, user } = authUser;
   const [hamburger, setHamburger] = useState(false);
-  const [profileDropdown, setProfileDropdown] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(true);
+
+  const handleProfile = () => {
+    setProfileDropdown(!profileDropdown);
+  };
+
   const logOut = () => {
     removeToken();
+    navigate("/login");
+    setProfileDropdown(!profileDropdown);
   };
 
   return (
@@ -108,7 +115,7 @@ const Header = ({ authUser }) => {
               <div className="relative">
                 <div
                   className="flex justify-between items-center gap-3 cursor-pointer"
-                  onClick={() => setProfileDropdown(!profileDropdown)}>
+                  onClick={handleProfile}>
                   {user?.photo ? (
                     <img
                       src={user?.photo}
@@ -119,7 +126,7 @@ const Header = ({ authUser }) => {
                     <FontAwesomeIcon icon={faUser} className="w-7 h-7" />
                   )}
 
-                  <p className="text-sm">{user?.name}</p>
+                  <p className="text-sm select-none">{user?.name}</p>
                   <FontAwesomeIcon
                     icon={faChevronDown}
                     className={`w-4 h-4 duration-300 ${
@@ -129,13 +136,16 @@ const Header = ({ authUser }) => {
                 </div>
 
                 {/* // user profile */}
-                <div className="hidden">
-                  <button
-                    onClick={logOut}
-                    className=" px-5 py-2 border-2 rounded-lg border-color">
-                    Log Out
-                  </button>
-                </div>
+
+                {!profileDropdown && (
+                  <div className="absolute w-full py-3 px-3 mt-5 flex bg-white shadow rounded-md cursor-pointer">
+                    <h3
+                      onClick={logOut}
+                      className="hover:bg-gray-100 p-3 w-full rounded-md">
+                      Log out
+                    </h3>
+                  </div>
+                )}
               </div>
             ) : (
               <>
