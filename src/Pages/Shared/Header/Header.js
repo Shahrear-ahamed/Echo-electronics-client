@@ -19,7 +19,7 @@ const Header = ({ authUser }) => {
 
   const logOut = () => {
     removeToken();
-    navigate("/login");
+    navigate("/");
     setProfileDropdown(!profileDropdown);
   };
 
