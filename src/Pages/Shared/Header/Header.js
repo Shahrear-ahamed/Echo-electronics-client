@@ -7,7 +7,7 @@ import hamburgerMenu from "../../../images/bars-solid.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = ({ user }) => {
+const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [hamburger, setHamburger] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(true);
@@ -19,6 +19,7 @@ const Header = ({ user }) => {
   const logOut = () => {
     removeToken();
     navigate("/");
+    setUser({});
     setProfileDropdown(!profileDropdown);
   };
 

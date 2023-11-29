@@ -31,7 +31,7 @@ function App() {
   }, []);
   return (
     <>
-      <Header user={user} />
+      <Header user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -67,12 +67,12 @@ function App() {
           }
         />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register setUser={setUser} />} />
         <Route
           path="/login"
           element={
             <ProtectRoute>
-              <Login />
+              <Login setUser={setUser} />
             </ProtectRoute>
           }
         />

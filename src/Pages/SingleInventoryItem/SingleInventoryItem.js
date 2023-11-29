@@ -16,7 +16,6 @@ const SingleInventoryItem = () => {
   const {
     _id,
     sold,
-    owner,
     price,
     image,
     inStock,
@@ -53,7 +52,7 @@ const SingleInventoryItem = () => {
         },
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
         }
       )
@@ -79,7 +78,7 @@ const SingleInventoryItem = () => {
         },
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
         }
       )

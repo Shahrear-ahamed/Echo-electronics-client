@@ -1,17 +1,27 @@
-import React from "react";
-import useUser from "../../../hook/useUser";
 import Loading from "../../Shared/Loading/Loading";
 import { Navigate, useLocation } from "react-router-dom";
+import { decodedAuthToken } from "../../../utils/token";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const PrivetRoute = ({ children }) => {
-  const { isLoggedIn, isLoading } = useUser();
+  const [user, setUser] = useState({
+    loading: true,
+  });
+
+  useEffect(() => {
+    const user = decodedAuthToken();
+
+    setUser({ ...user, loading: false });
+  }, []);
+
   const location = useLocation();
 
-  if (isLoading) {
+  if (user?.loading) {
     return <Loading />;
   }
 
-  if (!isLoggedIn) {
+  if (!user?.id) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return children;

@@ -2,9 +2,9 @@ import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Social from "../Social/Social";
-import { setToken } from "../../../utils/token";
+import { decodedAuthToken, setToken } from "../../../utils/token";
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -38,10 +38,14 @@ const Login = () => {
       return toast.error(resData.message);
     }
 
-
     // if user login successfully then redirect to home page
     navigate(from);
     setToken(resData.token);
+
+    const userToken = decodedAuthToken();
+
+    setUser({ ...userToken, loading: false });
+
     toast.success(resData.message);
   };
 

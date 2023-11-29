@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Social from "../Social/Social";
 import "./Register.css";
-import { setToken } from "../../../utils/token";
+import { decodedAuthToken, setToken } from "../../../utils/token";
 
-const Register = () => {
+const Register = ({setUser}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -42,6 +42,11 @@ const Register = () => {
     // after successful register redirect to login page
     navigate(from);
     setToken(resData.token);
+
+    // get and decode user token
+    const userToken = decodedAuthToken();
+
+    setUser({ ...userToken, loading: false });
     toast.success(resData.message);
   };
 
