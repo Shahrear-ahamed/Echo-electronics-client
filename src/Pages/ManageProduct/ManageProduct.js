@@ -6,9 +6,8 @@ import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
 import "./ManageProduct.css";
 
-const ManageProduct = ({ authUser }) => {
+const ManageProduct = ({ user }) => {
   const navigate = useNavigate();
-  const { isLoading } = authUser;
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -51,7 +50,7 @@ const ManageProduct = ({ authUser }) => {
     });
   };
 
-  return isLoading || loading ? (
+  return user?.loading || loading ? (
     <Loading />
   ) : (
     <section>
@@ -85,13 +84,23 @@ const ManageProduct = ({ authUser }) => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {manageProducts?.map((product) => (
-              <ManageSingleItem
-                key={product._id}
-                singleProduct={product}
-                handleDelete={handleDelete}
-              />
-            ))}
+            <tr
+              className="items-center border-b-2 px-3 border-gray-500"
+              style={{ height: "110px" }}>
+              {manageProducts.length > 0 ? (
+                manageProducts?.map((product) => (
+                  <ManageSingleItem
+                    key={product._id}
+                    singleProduct={product}
+                    handleDelete={handleDelete}
+                  />
+                ))
+              ) : (
+                <td colSpan={5}>
+                  <h2 className="text-center text-2xl">No items found</h2>
+                </td>
+              )}
+            </tr>
           </tbody>
         </table>
         <div

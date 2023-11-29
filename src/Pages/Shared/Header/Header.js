@@ -7,9 +7,8 @@ import hamburgerMenu from "../../../images/bars-solid.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Header = ({ authUser }) => {
+const Header = ({ user }) => {
   const navigate = useNavigate();
-  const { isLoggedIn, user } = authUser;
   const [hamburger, setHamburger] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(true);
 
@@ -71,7 +70,7 @@ const Header = ({ authUser }) => {
                 to="/manage-inventory">
                 Manage Inventory
               </NavLink>
-              {isLoggedIn ? (
+              {user?.email ? (
                 <>
                   <NavLink
                     className={({ isActive }) =>
@@ -111,7 +110,7 @@ const Header = ({ authUser }) => {
           {/* user interaction are here login or logout */}
 
           <div className="button-grp relative">
-            {isLoggedIn ? (
+            {user?.email ? (
               <div className="relative">
                 <div
                   className="flex justify-between items-center gap-3 cursor-pointer"

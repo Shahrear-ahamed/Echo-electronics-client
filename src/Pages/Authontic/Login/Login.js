@@ -27,7 +27,7 @@ const Login = () => {
     }
 
     try {
-      response = await axios.post("/user/login", user);
+      response = await axios.post("/users/login", user);
     } catch (err) {
       response = err.response;
     }
@@ -37,6 +37,7 @@ const Login = () => {
     if (resData.statusCode !== 200) {
       return toast.error(resData.message);
     }
+
 
     // if user login successfully then redirect to home page
     navigate(from);

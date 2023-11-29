@@ -1,11 +1,10 @@
-import axios from "axios";
+import axios from "../../../utils/axios";
 import { toast } from "react-toastify";
 import "./WarehouseAgreement.css";
 
 const WarehouseAgreement = () => {
   const handleAgreementClient = (e) => {
     e.preventDefault();
-    const url = "https://echo-electronics.herokuapp.com/warehouseagreement";
     // information
     const companyName = e.target.name.value;
     const email = e.target.email.value;
@@ -13,23 +12,21 @@ const WarehouseAgreement = () => {
     const agreementYear = e.target.agreementYear.value;
     const message = e.target.message.value;
 
-    // send date for future inventigation
-    const time = new Date(Date.now()).toLocaleString();
-
     const agreementObj = {
       companyName,
       email,
       number,
       agreementYear,
       message,
-      time,
     };
 
-    axios.post(url, agreementObj).then((response) => {
-      if (response.data.acknowledged) {
-        toast.success("We stored your information. We will notify you soon!!");
-        e.target.reset();
+    axios.post("/agreement", agreementObj).then((response) => {
+      if (!response.data.result._id) {
+        toast.error("Something went wrong. Please try again later!!");
       }
+
+      toast.success("We stored your information. We will notify you soon!!");
+      e.target.reset();
     });
   };
 
@@ -43,8 +40,7 @@ const WarehouseAgreement = () => {
         <div className="bar mb-4"></div>
         <form
           onSubmit={handleAgreementClient}
-          className="agreement-form mx-auto mt-4"
-        >
+          className="agreement-form mx-auto mt-4">
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-7">
             {" "}
             <div>
@@ -95,8 +91,7 @@ const WarehouseAgreement = () => {
                 name="agreementYear"
                 id="agreementYear"
                 required
-                defaultValue={"8 Years"}
-              >
+                defaultValue={"8 Years"}>
                 <option value="5 Years">5 Years</option>
                 <option value="8 Years">8 Years</option>
                 <option value="10 Years">10 Years</option>
@@ -112,8 +107,7 @@ const WarehouseAgreement = () => {
               id="message"
               cols="80"
               rows="8"
-              required
-            ></textarea>
+              required></textarea>
           </div>
           <input
             className="theme-color col-span-2 mx-auto mt-4 px-5 py-2 rounded-md cursor-pointer"

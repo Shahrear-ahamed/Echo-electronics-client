@@ -4,9 +4,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import { getToken } from "../../utils/token";
 
-const AddItems = ({ authUser }) => {
-  const { user } = authUser;
-  const { name, email, _id } = user;
+const AddItems = ({ user }) => {
+  const { id, email, name } = user;
   const authToken = getToken();
 
   // onsubmit section are here
@@ -26,7 +25,7 @@ const AddItems = ({ authUser }) => {
       price,
       product,
       quantity,
-      owner: _id,
+      owner: id,
       description,
       supplierMail: email,
     };
@@ -35,7 +34,7 @@ const AddItems = ({ authUser }) => {
       axios
         .post("/inventory/products", itemObj, {
           headers: {
-            Authorization: authToken,
+            Authorization: `Bearer ${authToken}`,
           },
         })
         .then((response) => {

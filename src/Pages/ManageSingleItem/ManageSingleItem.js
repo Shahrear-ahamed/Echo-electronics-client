@@ -8,9 +8,7 @@ const ManageSingleItem = ({ singleProduct, handleDelete }) => {
   const navigate = useNavigate();
 
   return (
-    <tr
-      className="items-center border-b-2 px-3 border-gray-500"
-      style={{ height: "110px" }}>
+    <>
       <td>
         <img
           src={image}
@@ -34,7 +32,7 @@ const ManageSingleItem = ({ singleProduct, handleDelete }) => {
           <FontAwesomeIcon className="text-white" icon={faTrashCan} />
         </button>
       </td>
-    </tr>
+    </>
   );
 };
 

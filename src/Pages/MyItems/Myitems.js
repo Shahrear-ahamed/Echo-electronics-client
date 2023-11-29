@@ -5,11 +5,10 @@ import ManageSingleItem from "../ManageSingleItem/ManageSingleItem";
 import Loading from "../Shared/Loading/Loading";
 import { getToken } from "../../utils/token";
 
-const Myitems = ({ authUser }) => {
-  const { user, isLoading } = authUser;
+const Myitems = ({ user }) => {
   const token = getToken();
   const [myItems, setMyItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const [isDeleted, setIsDeleted] = useState(false);
   const [ProductCount, setProductCount] = useState(10);
@@ -17,15 +16,16 @@ const Myitems = ({ authUser }) => {
 
   // find data from database
   useEffect(() => {
+    setLoading(true);
     const url = `inventory/products?email=${user?.email}&items=${ProductCount}&page=${pageCount}`;
 
     axios(url).then((response) => {
       if (response.status === 200) {
-        setLoading(false);
         setMyItems(response?.data.products);
         setTotalPages(response?.data.pages);
       }
     });
+    setLoading(false);
   }, [ProductCount, pageCount, user, isDeleted]);
 
   // delete items
@@ -57,7 +57,7 @@ const Myitems = ({ authUser }) => {
     });
   };
 
-  return isLoading || loading ? (
+  return user?.loading || loading ? (
     <Loading />
   ) : (
     <section>
@@ -84,15 +84,28 @@ const Myitems = ({ authUser }) => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {myItems.map((product) => (
-              <ManageSingleItem
-                key={product._id}
-                handleDelete={handleDelete}
-                singleProduct={product}
-              />
-            ))}
+            <tr
+              className="items-center border-b-2 px-3 border-gray-500"
+              style={{ height: "110px" }}>
+              {myItems.length > 0 ? (
+                myItems.map((product) => (
+                  <ManageSingleItem
+                    key={product._id}
+                    handleDelete={handleDelete}
+                    singleProduct={product}
+                  />
+                ))
+              ) : (
+                <td colSpan={5}>
+                  <h2 className="text-center text-2xl">No items found</h2>
+                </td>
+              )}
+            </tr>
           </tbody>
         </table>
+        {myItems.length === 0 && (
+          <h2 className="text-center text-2xl">No items found</h2>
+        )}
         <div
           className="flex justify-between w-full mx-auto my-8"
           style={{ maxWidth: "400px" }}>

@@ -28,7 +28,7 @@ const Register = () => {
     }
 
     try {
-      response = await axios.post("/user/register", userData);
+      response = await axios.post("/users/register", userData);
     } catch (err) {
       response = err.response;
     }

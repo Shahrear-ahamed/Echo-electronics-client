@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import useUser from "./hook/useUser";
 import AddItems from "./Pages/AddItems/AddItems";
 import Login from "./Pages/Authontic/Login/Login";
 import PasswordReset from "./Pages/Authontic/PasswordReset/PasswordReset";
@@ -17,12 +16,22 @@ import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
 import PageError from "./Pages/Shared/PageError/PageError";
 import SingleInventoryItem from "./Pages/SingleInventoryItem/SingleInventoryItem";
+import { useEffect, useState } from "react";
+import { decodedAuthToken } from "./utils/token";
 
 function App() {
-  const authUser = useUser();
+  const [user, setUser] = useState({
+    loading: true,
+  });
+
+  useEffect(() => {
+    const user = decodedAuthToken();
+
+    setUser({ ...user, loading: false });
+  }, []);
   return (
     <>
-      <Header authUser={authUser} />
+      <Header user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -37,7 +46,7 @@ function App() {
           path="/add-items"
           element={
             <PrivetRoute>
-              <AddItems authUser={authUser} />
+              <AddItems user={user} />
             </PrivetRoute>
           }
         />
@@ -45,7 +54,7 @@ function App() {
           path="/my-items"
           element={
             <PrivetRoute>
-              <Myitems authUser={authUser} />
+              <Myitems user={user} />
             </PrivetRoute>
           }
         />
@@ -53,7 +62,7 @@ function App() {
           path="/manage-inventory"
           element={
             <PrivetRoute>
-              <ManageProduct authUser={authUser} />
+              <ManageProduct user={user} />
             </PrivetRoute>
           }
         />
