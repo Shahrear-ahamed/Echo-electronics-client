@@ -3,7 +3,6 @@ import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
-import Social from "../Social/Social";
 
 const PasswordReset = () => {
   const [sendPasswordResetEmail, , error] = useSendPasswordResetEmail(auth);
@@ -58,7 +57,6 @@ const PasswordReset = () => {
           </p>
         </div>
       </div>
-      <Social />
     </section>
   );
 };

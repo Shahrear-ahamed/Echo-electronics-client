@@ -1,7 +1,6 @@
 import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Social from "../Social/Social";
 import { decodedAuthToken, setToken } from "../../../utils/token";
 
 const Login = ({ setUser }) => {
@@ -77,12 +76,6 @@ const Login = ({ setUser }) => {
           />
         </form>
         <div>
-          <p className="pt-3">
-            Forget Password?{" "}
-            <Link className="link" to="/password-reset">
-              Click here
-            </Link>
-          </p>
           <p className="py-3">
             New to Echo Electronics?{" "}
             <Link className="link" to="/register">
@@ -91,7 +84,6 @@ const Login = ({ setUser }) => {
           </p>
         </div>
       </div>
-      <Social />
     </section>
   );
 };

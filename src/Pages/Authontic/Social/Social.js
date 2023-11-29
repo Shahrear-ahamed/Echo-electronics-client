@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import auth from "../../../firebase.init";
 import google from "../../../images/Google-logo.svg";
 import { getToken } from "../../../utils/token";
 

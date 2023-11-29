@@ -1,7 +1,6 @@
 import axios from "../../../utils/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Social from "../Social/Social";
 import "./Register.css";
 import { decodedAuthToken, setToken } from "../../../utils/token";
 
@@ -102,7 +101,6 @@ const Register = ({setUser}) => {
           </Link>
         </p>
       </div>
-      <Social />
     </section>
   );
 };
